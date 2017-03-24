@@ -1,5 +1,5 @@
-*.log
 .DS_Store
-node_modules
-dist
-.idea
+node_modules/
+npm-debug.log
+dist/
+es/

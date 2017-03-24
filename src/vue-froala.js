@@ -1,58 +1,34 @@
-/*!
- * Vue-Froala.js v2.0.0
- * (c) 2017 David Baldwynn <polydaic@gmail.com>
- * Released under the MIT License.
- */
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.install = factory());
-}(this, (function () { 'use strict';
-
-function __$styleInject(css, returnValue) {
-  if (typeof document === 'undefined') {
-    return returnValue;
-  }
-  css = css || '';
-  var head = document.head || document.getElementsByTagName('head')[0];
-  var style = document.createElement('style');
-  style.type = 'text/css';
-  if (style.styleSheet){
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-  head.appendChild(style);
-  return returnValue;
-}
 var $ = require('jquery');
 
-var vueFroala = (function (Vue) {
-  var Options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
+export default (Vue, Options = {}) => {
 
   var froalaEditorFunctionality = {
 
-    props: ['value', 'config'],
+    props: ['tag', 'value', 'config', 'onManualControllerReady'],
 
-    render: function render(createElement) {
-      return createElement(this.tag);
+    watch: {
+      value: function () {
+        this.model = this.value;
+        this.updateValue();
+      }
     },
 
-    // Before first time render.
-    beforeCreate: function beforeCreate() {
-      console.log('before create');
+    render: function (createElement) {
+      return createElement(
+        this.currentTag,
+        [this.$slots.default]
+      )
     },
 
-    created: function created() {
-      console.log('created');
+    created: function () {
+      this.currentTag = this.tag || this.currentTag;
       this.model = this.value;
     },
 
     // After first time render.
-    mounted: function mounted() {
-      console.log('mounted');
-      if (this.SPECIAL_TAGS.indexOf(this.tag) != -1) {
+    mounted: function() {
+      if (this.SPECIAL_TAGS.indexOf(this.currentTag) != -1) {
 
         this.hasSpecialTag = true;
       }
@@ -64,25 +40,16 @@ var vueFroala = (function (Vue) {
       }
     },
 
-    beforeDestroy: function beforeDestroy() {
+    beforeDestroy: function() {
       this.destroyEditor();
     },
 
-    updated: function updated() {
-
-      if (JSON.stringify(this.oldModel) == JSON.stringify(this.model)) {
-        return;
-      }
-
-      this.setContent();
-    },
-
-    data: function data() {
+    data: function () {
 
       return {
 
         // Tag on which the editor is initialized.
-        tag: 'div',
+        currentTag: 'div',
         listeningEvents: [],
 
         // Jquery wrapped element.
@@ -91,10 +58,13 @@ var vueFroala = (function (Vue) {
         // Editor element.
         _$editor: null,
 
+        // Current config.
+        currentConfig: null,
+
         // Editor options config
         defaultConfig: {
-          immediateReactModelUpdate: false,
-          reactIgnoreAttrs: null
+          immediateVueModelUpdate: false,
+          vueIgnoreAttrs: null
         },
 
         editorInitialized: false,
@@ -108,27 +78,34 @@ var vueFroala = (function (Vue) {
       };
     },
     methods: {
-      createEditor: function createEditor() {
+      updateValue: function() {
+        if (JSON.stringify(this.oldModel) == JSON.stringify(this.model)) {
+          return;
+        }
 
-        console.log(this.config);
+        this.setContent();
+      },
+
+      createEditor: function() {
+
         if (this.editorInitialized) {
           return;
         }
 
-        this.config = this.config || this.defaultConfig;
+        this.currentConfig = this.config || this.defaultConfig;
 
         this._$element = $(this.$el);
 
         this.setContent(true);
 
         this.registerEvents();
-        this._$editor = this._$element.froalaEditor(this.config).data('froala.editor').$el;
+        this._$editor = this._$element.froalaEditor(this.currentConfig).data('froala.editor').$el;
         this.initListeners();
 
         this.editorInitialized = true;
       },
 
-      setContent: function setContent(firstTime) {
+      setContent: function(firstTime) {
 
         if (!this.editorInitialized && !firstTime) {
           return;
@@ -146,7 +123,7 @@ var vueFroala = (function (Vue) {
         }
       },
 
-      setNormalTagContent: function setNormalTagContent(firstTime) {
+      setNormalTagContent: function(firstTime) {
 
         var self = this;
 
@@ -165,9 +142,10 @@ var vueFroala = (function (Vue) {
         } else {
           htmlSet();
         }
+
       },
 
-      setSpecialTagContent: function setSpecialTagContent() {
+      setSpecialTagContent: function() {
 
         var tags = this.model;
 
@@ -186,7 +164,7 @@ var vueFroala = (function (Vue) {
         }
       },
 
-      destroyEditor: function destroyEditor() {
+      destroyEditor: function() {
 
         if (this._$element) {
 
@@ -199,7 +177,7 @@ var vueFroala = (function (Vue) {
         }
       },
 
-      getEditor: function getEditor() {
+      getEditor: function() {
 
         if (this._$element) {
           return this._$element.froalaEditor.bind(this._$element);
@@ -207,23 +185,19 @@ var vueFroala = (function (Vue) {
         return null;
       },
 
-      generateManualController: function generateManualController() {
+      generateManualController: function() {
 
         var self = this;
         var controls = {
           initialize: this.createEditor,
           destroy: this.destroyEditor,
-          getEditor: this.getEditor
+          getEditor: this.getEditor,
         };
 
         this.onManualControllerReady(controls);
       },
 
-      updateModel: function updateModel() {
-
-        if (!this.onModelChange) {
-          return;
-        }
+      updateModel: function() {
 
         var modelContent = '';
 
@@ -232,10 +206,10 @@ var vueFroala = (function (Vue) {
           var attributeNodes = this._$element[0].attributes;
           var attrs = {};
 
-          for (var i = 0; i < attributeNodes.length; i++) {
+          for (var i = 0; i < attributeNodes.length; i++ ) {
 
             var attrName = attributeNodes[i].name;
-            if (this.config.reactIgnoreAttrs && this.config.reactIgnoreAttrs.indexOf(attrName) != -1) {
+            if (this.currentConfig.vueIgnoreAttrs && this.currentConfig.vueIgnoreAttrs.indexOf(attrName) != -1) {
               continue;
             }
             attrs[attrName] = attributeNodes[i].value;
@@ -258,14 +232,14 @@ var vueFroala = (function (Vue) {
         this.$emit('input', modelContent);
       },
 
-      initListeners: function initListeners() {
+      initListeners: function() {
         var self = this;
 
         // bind contentChange and keyup event to froalaModel
-        this.registerEvent(this._$element, 'froalaEditor.contentChanged', function () {
+        this.registerEvent(this._$element, 'froalaEditor.contentChanged',function () {
           self.updateModel();
         });
-        if (this.config.immediateReactModelUpdate) {
+        if (this.currentConfig.immediateVueModelUpdate) {
           this.registerEvent(this._$editor, 'keyup', function () {
             self.updateModel();
           });
@@ -273,7 +247,7 @@ var vueFroala = (function (Vue) {
       },
 
       // register event on jquery editor element
-      registerEvent: function registerEvent(element, eventName, callback) {
+      registerEvent: function(element, eventName, callback) {
 
         if (!element || !eventName || !callback) {
           return;
@@ -283,9 +257,9 @@ var vueFroala = (function (Vue) {
         element.on(eventName, callback);
       },
 
-      registerEvents: function registerEvents() {
+      registerEvents: function() {
 
-        var events = this.config.events;
+        var events = this.currentConfig.events;
         if (!events) {
           return;
         }
@@ -296,12 +270,51 @@ var vueFroala = (function (Vue) {
           }
         }
       }
-    }
+    }    
   };
 
   Vue.component('froala', froalaEditorFunctionality);
-});
 
-return vueFroala;
+  var froalaViewFunctionality = {
 
-})));
+    props: ['tag', 'value'],
+
+    watch: {
+      value: function (newValue) {
+        this._element.innerHTML = newValue;
+      }
+    },
+
+    created: function () {
+      this.currentTag = this.tag || this.currentTag;
+    },
+
+    render: function (createElement) {
+      return createElement(
+        this.currentTag,
+        {
+          class: 'fr-view'
+        }
+      )
+    },
+
+    // After first time render.
+    mounted: function() {
+      this._element = this.$el;
+
+      if (this.value) {
+         this._element.innerHTML = this.value
+      }
+    },
+
+    data: function () {
+
+      return {
+        currentTag: 'div',
+        _element: null,
+      };
+    }
+  };
+
+  Vue.component('froalaView', froalaViewFunctionality);
+}
