@@ -3,6 +3,7 @@
 
 import Vue from 'vue'
 import App from './examples/App'
+
 // supports both of Vue 1.0 and Vue 2.0
 require('froala-editor/js/froala_editor.pkgd.min');
 

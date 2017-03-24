@@ -28,6 +28,10 @@ webpackConfig.plugins = (webpackConfig.plugins || []).concat([
     compress: { warnings: false }
   }),
   new webpack.optimize.OccurenceOrderPlugin(),
+  new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    })
 ])
 
 module.exports = webpackConfig

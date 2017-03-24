@@ -1,5 +1,3 @@
-var $ = require('jquery');
-
 
 export default (Vue, Options = {}) => {
 
