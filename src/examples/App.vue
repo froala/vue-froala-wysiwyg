@@ -142,7 +142,7 @@ export default {
 
       },
       linkDestroyEditor: () => {
-        linkInitControls.destroy();
+        this.linkInitControls.destroy();
         this.linkShowEditor = false;
       },
       initializeLink: (linkInitControls) => {
