@@ -68,7 +68,7 @@
 
 <script>
 import VueFroala from 'src';
-var self = this;
+
 export default {
   name: 'app',
   data () {
@@ -156,7 +156,6 @@ export default {
   created() {
 
   }
-
 }
 </script>
 
