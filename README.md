@@ -11,37 +11,35 @@
 
 ## Installation
 
+Install `vue-froala-wysiwyg` from `npm`
+
 ```bash
 npm install vue-froala-wysiwyg --save
 ```
 
-## Usage
+
+
+## Integration
 
 #### 1. Require and use Froala Editor component inside your application.
 
 #### main.js file:
 ```javascript
-import Vue from 'vue'
-
-// Import App.vue .
-import App from 'path/to/your/App'
+...
 
 // Require Froala Editor js file.
-require('froala-editor/js/froala_editor.pkgd.min');
+require('froala-editor/js/froala_editor.pkgd.min')
 
 // Require Froala Editor css files.
-require("froala-editor/css/froala_editor.pkgd.min.css");
-require('font-awesome/css/font-awesome.css');
+require('froala-editor/css/froala_editor.pkgd.min.css')
+require('font-awesome/css/font-awesome.css')
 require('froala-editor/css/froala_style.min.css')
 
 // Import and use Vue Froala lib.
-import VueFroala from 'vue-froala-wysiwyg';
-Vue.use(VueFroala);
+import VueFroala from 'vue-froala-wysiwyg'
+Vue.use(VueFroala)
 
-// Create Vue instance.
-new Vue({
-  render: h => h(App)
-}).$mount('#app')
+...
 ```
 
 #### App.vue file:
@@ -60,10 +58,9 @@ export default {
   data () {
     return {
       config: {
-        toolbarInline: true,
         events: {
-          'froalaEditor.initialized': function() {
-            console.log('initialized');
+          'froalaEditor.initialized': function () {
+            console.log('initialized')
           }
         }
       },
@@ -73,6 +70,8 @@ export default {
 }
 </script>
 ```
+
+
 
 #### 2. Make sure you have the right Webpack settings for loading the CSS files, Font Awesome and jQuery.
 
@@ -125,7 +124,11 @@ module.exports = {
 })
 ```
 
-#### Pass properties to the wrapping DOM element
+
+
+## Usage
+
+### Initialize
 
 ```javascript
 // If model is initialized, 'Init text' text child will be overwritten.
@@ -135,6 +138,7 @@ module.exports = {
 **:tag** attr is used to tell on which tag the editor is initialized.
 
 There are special tags: **a**, **button**, **img**, **input**.
+
 
 
 ### Options
@@ -222,6 +226,8 @@ config: {
 }
  ```
 
+
+
 ## Manual Instantiation
 
 Gets the functionality to operate on the editor: create, destroy and get editor instance. Use it if you want to manually initialize the editor.
@@ -246,6 +252,8 @@ The object received by the function will contain the following methods:
 - **getEditor**: Call this method to retrieve the editor that was created. This method will return *null* if the editor was not yet created
 
 
+
+
 ## Displaying HTML
 
 To display content created with the froala editor use the `froalaView` component.
@@ -256,12 +264,16 @@ To display content created with the froala editor use the `froalaView` component
 <froalaView v-model="content"></froalaView>
 ```
 
+
+
 ## License
 
 The `vue-froala-wyswiyg` project is under MIT license. However, in order to use Froala WYSIWYG HTML Editor plugin you should purchase a license for it.
 
 Froala Editor has [3 different licenses](http://froala.com/wysiwyg-editor/pricing) for commercial use.
 For details please see [License Agreement](http://froala.com/wysiwyg-editor/terms).
+
+
 
 ## Development environment setup
 
