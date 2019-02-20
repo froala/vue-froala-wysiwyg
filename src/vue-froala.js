@@ -92,7 +92,7 @@ export default (Vue, Options = {}) => {
 
         this.currentConfig = this.config || this.defaultConfig;
 
-        this._$element = $(this.$el);
+        this._$element = jQuery(this.$el);
 
         this.setContent(true);
 
