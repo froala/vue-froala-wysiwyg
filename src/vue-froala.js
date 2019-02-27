@@ -100,6 +100,10 @@ export default (Vue, Options = {}) => {
         this._$editor = this._$element.froalaEditor(this.currentConfig).data('froala.editor').$el;
         this.initListeners();
 
+        if(this._$element.find('.fr-counter').length>0){
+          this._$element.find('.fr-counter')[0].innerText = this._$editor[0].innerText.length
+        }
+
         this.editorInitialized = true;
       },
 
