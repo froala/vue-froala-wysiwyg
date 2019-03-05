@@ -1,4 +1,3 @@
-var vue = require('vue-loader')
 var path = require('path')
 var webpack = require("webpack")
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
@@ -7,36 +6,31 @@ var cssLoader = ExtractTextPlugin.extract('style-loader', 'css-loader')
 
 module.exports = {
   entry: {
-    'vue-froala': './src/vue-froala.js'
+    'vue-froala': './src/vue-froala.js',
   },
   output: {
-    filename: './dist/[name].js',
+    filename: '[name].js',
     library: 'vue-froala-wysiwyg',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
+  mode: 'production',
   module: {
-    preLoaders: [
-      {
+    rules: [{
         test: /\.vue$/,
-        loader: 'vue'
+        loader: 'vue-loader',
+        enforce: 'pre'
       },
       {
         test: /\.js$/,
-        loader: 'babel',
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/env'],
+          plugins: ['@babel/plugin-transform-runtime']
+        },
         include: projectRoot,
-        exclude: /node_modules/
-      }
-    ],
-    loaders: [
-      {
-        test: /\.vue$/,
-        loader: 'vue'
-      },
-      {
-        test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel'
+        enforce: 'pre'
       },
       {
         test: /\.css$/,
@@ -44,31 +38,11 @@ module.exports = {
       },
       {
         test: /\.s[a|c]ss$/,
-        loader: ExtractTextPlugin.extract('style-loader','css-loader!sass-loader')
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader')
       }
     ]
   },
-  babel: {
-    presets: ['es2015'],
-    plugins: ['transform-runtime']
+  optimization: {
+    minimize: false,
   }
-}
-
-if (process.env.NODE_ENV === 'production') {
-
-  delete module.exports.devtool
-  module.exports.plugins = [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    }),
-    new webpack.optimize.OccurenceOrderPlugin()
-    // new ExtractTextPlugin('build.css')
-  ]
 }
