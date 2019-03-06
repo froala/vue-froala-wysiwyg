@@ -92,13 +92,17 @@ export default (Vue, Options = {}) => {
 
         this.currentConfig = this.config || this.defaultConfig;
 
-        this._$element = $(this.$el);
+        this._$element = jQuery(this.$el);
 
         this.setContent(true);
 
         this.registerEvents();
         this._$editor = this._$element.froalaEditor(this.currentConfig).data('froala.editor').$el;
         this.initListeners();
+
+        if(this._$element.find('.fr-counter').length>0){
+          this._$element.find('.fr-counter')[0].innerText = this._$editor[0].innerText.length
+        }
 
         this.editorInitialized = true;
       },
@@ -271,7 +275,7 @@ export default (Vue, Options = {}) => {
     }    
   };
 
-  Vue.component('froala', froalaEditorFunctionality);
+  Vue.component('Froala', froalaEditorFunctionality);
 
   var froalaViewFunctionality = {
 
@@ -314,5 +318,5 @@ export default (Vue, Options = {}) => {
     }
   };
 
-  Vue.component('froalaView', froalaViewFunctionality);
+  Vue.component('FroalaView', froalaViewFunctionality);
 }
