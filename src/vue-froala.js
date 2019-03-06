@@ -92,7 +92,7 @@ export default (Vue, Options = {}) => {
 
         this.currentConfig = this.config || this.defaultConfig;
 
-        this._$element = $(this.$el);
+        this._$element = jQuery(this.$el);
 
         this.setContent(true);
 
@@ -271,7 +271,7 @@ export default (Vue, Options = {}) => {
     }    
   };
 
-  Vue.component('froala', froalaEditorFunctionality);
+  Vue.component('Froala', froalaEditorFunctionality);
 
   var froalaViewFunctionality = {
 
@@ -314,5 +314,5 @@ export default (Vue, Options = {}) => {
     }
   };
 
-  Vue.component('froalaView', froalaViewFunctionality);
+  Vue.component('FroalaView', froalaViewFunctionality);
 }
