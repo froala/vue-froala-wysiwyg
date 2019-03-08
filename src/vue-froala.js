@@ -94,8 +94,10 @@ export default (Vue, Options = {}) => {
 
         this._$element = jQuery(this.$el);
         
-        if(this._props.value)
-        this._$element[0].innerHTML=this._props.value;
+        if(this._props.value){
+          this._$element[0].innerHTML=this._props.value;
+        }
+        
         
         this.setContent(true);
 
