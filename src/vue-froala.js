@@ -128,12 +128,13 @@ export default (Vue, Options = {}) => {
         var self = this;
 
         function htmlSet() {
-          self._$element.froalaEditor('undo.reset');
           self._$element.froalaEditor('html.set', self.model || '', true);
           
           //This will reset the undo stack everytime the model changes externally. Can we fix this?
           
           self._$element.froalaEditor('undo.saveStep');
+          self._$element.froalaEditor('undo.reset');
+          
         }
 
         if (firstTime) {
