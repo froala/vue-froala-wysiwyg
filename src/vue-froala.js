@@ -93,7 +93,9 @@ export default (Vue, Options = {}) => {
         this.currentConfig = this.config || this.defaultConfig;
 
         this._$element = jQuery(this.$el);
-
+        
+        
+        
         this.setContent(true);
 
         this.registerEvents();
@@ -126,11 +128,13 @@ export default (Vue, Options = {}) => {
         var self = this;
 
         function htmlSet() {
-
           self._$element.froalaEditor('html.set', self.model || '', true);
+          
           //This will reset the undo stack everytime the model changes externally. Can we fix this?
-          self._$element.froalaEditor('undo.reset');
+          
           self._$element.froalaEditor('undo.saveStep');
+          self._$element.froalaEditor('undo.reset');
+          
         }
 
         if (firstTime) {
@@ -176,7 +180,6 @@ export default (Vue, Options = {}) => {
       },
 
       getEditor: function() {
-
         if (this._$element) {
           return this._$element.froalaEditor.bind(this._$element);
         }
