@@ -94,9 +94,6 @@ export default (Vue, Options = {}) => {
 
         this._$element = jQuery(this.$el);
         
-        if(this._props.value){
-          this._$element[0].innerHTML=this._props.value;
-        }
         
         
         this.setContent(true);
@@ -131,10 +128,11 @@ export default (Vue, Options = {}) => {
         var self = this;
 
         function htmlSet() {
-
-          self._$element.froalaEditor('html.set', self.model || '', true);
-          //This will reset the undo stack everytime the model changes externally. Can we fix this?
           self._$element.froalaEditor('undo.reset');
+          self._$element.froalaEditor('html.set', self.model || '', true);
+          
+          //This will reset the undo stack everytime the model changes externally. Can we fix this?
+          
           self._$element.froalaEditor('undo.saveStep');
         }
 
@@ -181,7 +179,6 @@ export default (Vue, Options = {}) => {
       },
 
       getEditor: function() {
-
         if (this._$element) {
           return this._$element.froalaEditor.bind(this._$element);
         }
