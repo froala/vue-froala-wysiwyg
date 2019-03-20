@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
-    "froala-editor": "2.9.3",
+    "froala-editor": "github:froala-labs/froala-editor-dist",
     "vue": "2.6.6"
   },
   "devDependencies": {
