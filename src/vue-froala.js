@@ -1,5 +1,7 @@
-
+import FroalaEditor from 'froala-editor/js/froala_editor.min.js';
 export default (Vue, Options = {}) => {
+     
+  Vue.component('FroalaEditor', FroalaEditor)
 
   var froalaEditorFunctionality = {
 
@@ -89,20 +91,20 @@ export default (Vue, Options = {}) => {
         if (this.editorInitialized) {
           return;
         }
-
         this.currentConfig = this.config || this.defaultConfig;
-
-        this._$element = jQuery(this.$el);
         
-        
-        
+        this._$element = this.$el;
+      
         this.setContent(true);
 
         this.registerEvents();
-        this._$editor = this._$element.froalaEditor(this.currentConfig).data('froala.editor').$el;
+        
+        this._$element.froalaEditor = new FroalaEditor('#'+this._$element.id,this.currentConfig)
+        this._$editor = this._$element.froalaEditor.$el
+        
         this.initListeners();
-
         this.editorInitialized = true;
+      
       },
 
       setContent: function(firstTime) {
@@ -124,21 +126,22 @@ export default (Vue, Options = {}) => {
       },
 
       setNormalTagContent: function(firstTime) {
-
+        
         var self = this;
 
         function htmlSet() {
-          self._$element.froalaEditor('html.set', self.model || '', true);
+          
+          self._$element.froalaEditor.html.set(self.model || '');
           
           //This will reset the undo stack everytime the model changes externally. Can we fix this?
           
-          self._$element.froalaEditor('undo.saveStep');
-          self._$element.froalaEditor('undo.reset');
+          self._$element.froalaEditor.undo.saveStep();
+          self._$element.froalaEditor.undo.reset();
           
         }
 
         if (firstTime) {
-          this.registerEvent(this._$element, 'froalaEditor.initialized', function () {
+          this.registerEvent(this._$element, 'initialized', function () {
             htmlSet();
           });
         } else {
@@ -156,12 +159,12 @@ export default (Vue, Options = {}) => {
 
           for (var attr in tags) {
             if (tags.hasOwnProperty(attr) && attr != this.INNER_HTML_ATTR) {
-              this._$element.attr(attr, tags[attr]);
+              this._$element.setAttribute(attr, tags[attr]);
             }
           }
 
           if (tags.hasOwnProperty(this.INNER_HTML_ATTR)) {
-            this._$element[0].innerHTML = tags[this.INNER_HTML_ATTR];
+            this._$element.innerHTML = tags[this.INNER_HTML_ATTR];
           }
         }
       },
@@ -170,9 +173,9 @@ export default (Vue, Options = {}) => {
 
         if (this._$element) {
 
-          this.listeningEvents && this._$element.off(this.listeningEvents.join(" "));
-          this._$editor.off('keyup');
-          this._$element.froalaEditor('destroy');
+          //this.listeningEvents && this._$element.off(this.listeningEvents.join(" "));
+          //this._$editor.off('keyup');
+          this._$element.froalaEditor.destroy();
           this.listeningEvents.length = 0;
           this._$element = null;
           this.editorInitialized = false;
@@ -181,7 +184,8 @@ export default (Vue, Options = {}) => {
 
       getEditor: function() {
         if (this._$element) {
-          return this._$element.froalaEditor.bind(this._$element);
+          //return this._$element.froalaEditor.bind(this._$element);
+          return new FroalaEditor('#'+this._$element.id).$el;
         }
         return null;
       },
@@ -223,7 +227,7 @@ export default (Vue, Options = {}) => {
           modelContent = attrs;
         } else {
 
-          var returnedHtml = this._$element.froalaEditor('html.get');
+          var returnedHtml = this._$element.froalaEditor.html.get();
           if (typeof returnedHtml === 'string') {
             modelContent = returnedHtml;
           }
@@ -237,7 +241,7 @@ export default (Vue, Options = {}) => {
         var self = this;
 
         // bind contentChange and keyup event to froalaModel
-        this.registerEvent(this._$element, 'froalaEditor.contentChanged',function () {
+        this.registerEvent(this._$element, 'contentChanged',function () {
           self.updateModel();
         });
         if (this.currentConfig.immediateVueModelUpdate) {
@@ -255,7 +259,12 @@ export default (Vue, Options = {}) => {
         }
 
         this.listeningEvents.push(eventName);
-        element.on(eventName, callback);
+        
+        if(!this.currentConfig.events){
+          this.currentConfig.events = {};
+        } 
+        this.currentConfig.events[eventName] = callback;
+        
       },
 
       registerEvents: function() {
