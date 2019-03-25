@@ -184,8 +184,7 @@ export default (Vue, Options = {}) => {
 
       getEditor: function() {
         if (this._$element) {
-          //return this._$element.froalaEditor.bind(this._$element);
-          return new FroalaEditor('#'+this._$element.id).$el;
+          return new FroalaEditor('#'+this._$element.id);
         }
         return null;
       },
