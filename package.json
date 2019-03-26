@@ -18,12 +18,10 @@
     "text",
     "editor",
     "wysisyg",
-    "jquery-plugin",
     "rich editor",
     "rich text editor",
     "rte",
-    "javascript",
-    "jquery"
+    "javascript"
   ],
   "main": "dist/vue-froala.js",
   "unpkg": "dist/vue-froala.min.js",

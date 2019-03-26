@@ -52,11 +52,8 @@ export default (Vue, Options = {}) => {
         currentTag: 'div',
         listeningEvents: [],
 
-        // Jquery wrapped element.
-        _$element: null,
-
         // Editor element.
-        _$editor: null,
+        _editor: null,
 
         // Current config.
         currentConfig: null,
@@ -93,14 +90,11 @@ export default (Vue, Options = {}) => {
         }
         this.currentConfig = this.config || this.defaultConfig;
         
-        this._$element = this.$el;
-      
         this.setContent(true);
 
         this.registerEvents();
         
-        this._$element.froalaEditor = new FroalaEditor('#'+this._$element.id,this.currentConfig)
-        this._$editor = this._$element.froalaEditor.$el
+        this._editor = new FroalaEditor('#'+this.$el.id,this.currentConfig)
         
         this.initListeners();
         this.editorInitialized = true;
@@ -131,17 +125,17 @@ export default (Vue, Options = {}) => {
 
         function htmlSet() {
           
-          self._$element.froalaEditor.html.set(self.model || '');
+          self._editor.html.set(self.model || '');
           
           //This will reset the undo stack everytime the model changes externally. Can we fix this?
           
-          self._$element.froalaEditor.undo.saveStep();
-          self._$element.froalaEditor.undo.reset();
+          self._editor.undo.saveStep();
+          self._editor.undo.reset();
           
         }
 
         if (firstTime) {
-          this.registerEvent(this._$element, 'initialized', function () {
+          this.registerEvent(this.$el, 'initialized', function () {
             htmlSet();
           });
         } else {
@@ -159,32 +153,30 @@ export default (Vue, Options = {}) => {
 
           for (var attr in tags) {
             if (tags.hasOwnProperty(attr) && attr != this.INNER_HTML_ATTR) {
-              this._$element.setAttribute(attr, tags[attr]);
+              this.$el.setAttribute(attr, tags[attr]);
             }
           }
 
           if (tags.hasOwnProperty(this.INNER_HTML_ATTR)) {
-            this._$element.innerHTML = tags[this.INNER_HTML_ATTR];
+            this.$el.innerHTML = tags[this.INNER_HTML_ATTR];
           }
         }
       },
 
       destroyEditor: function() {
 
-        if (this._$element) {
+        if (this.$el) {
 
-          //this.listeningEvents && this._$element.off(this.listeningEvents.join(" "));
-          //this._$editor.off('keyup');
-          this._$element.froalaEditor.destroy();
+          this._editor.destroy();
           this.listeningEvents.length = 0;
-          this._$element = null;
+          this.$el = null;
           this.editorInitialized = false;
         }
       },
 
       getEditor: function() {
-        if (this._$element) {
-          return new FroalaEditor('#'+this._$element.id);
+        if (this.$el) {
+          return new FroalaEditor('#'+this.$el.id);
         }
         return null;
       },
@@ -207,7 +199,7 @@ export default (Vue, Options = {}) => {
 
         if (this.hasSpecialTag) {
 
-          var attributeNodes = this._$element[0].attributes;
+          var attributeNodes = this.$el[0].attributes;
           var attrs = {};
 
           for (var i = 0; i < attributeNodes.length; i++ ) {
@@ -219,14 +211,14 @@ export default (Vue, Options = {}) => {
             attrs[attrName] = attributeNodes[i].value;
           }
 
-          if (this._$element[0].innerHTML) {
-            attrs[this.INNER_HTML_ATTR] = this._$element[0].innerHTML;
+          if (this.$el[0].innerHTML) {
+            attrs[this.INNER_HTML_ATTR] = this.$el[0].innerHTML;
           }
 
           modelContent = attrs;
         } else {
 
-          var returnedHtml = this._$element.froalaEditor.html.get();
+          var returnedHtml = this._editor.html.get();
           if (typeof returnedHtml === 'string') {
             modelContent = returnedHtml;
           }
@@ -240,11 +232,11 @@ export default (Vue, Options = {}) => {
         var self = this;
 
         // bind contentChange and keyup event to froalaModel
-        this.registerEvent(this._$element, 'contentChanged',function () {
+        this.registerEvent(this.$el, 'contentChanged',function () {
           self.updateModel();
         });
         if (this.currentConfig.immediateVueModelUpdate) {
-          this.registerEvent(this._$editor, 'keyup', function () {
+          this.registerEvent(this._editor, 'keyup', function () {
             self.updateModel();
           });
         }
@@ -275,7 +267,7 @@ export default (Vue, Options = {}) => {
 
         for (var event in events) {
           if (events.hasOwnProperty(event)) {
-            this.registerEvent(this._$element, event, events[event]);
+            this.registerEvent(this.$el, event, events[event]);
           }
         }
       }
