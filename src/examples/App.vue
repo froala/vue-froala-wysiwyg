@@ -109,9 +109,9 @@ export default {
       initialize: (initControls) => {
         this.initControls = initControls;
         this.deleteAll = () => {
-            this.initControls.getEditor().html().set('');
-            this.initControls.getEditor().undo().reset();
-            this.initControls.getEditor().undo().saveStep();
+            this.initControls.getEditor().html.set('');
+            this.initControls.getEditor().undo.reset();
+            this.initControls.getEditor().undo.saveStep();
         };
       },
 

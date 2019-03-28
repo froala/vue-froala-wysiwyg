@@ -27,11 +27,7 @@ webpackConfig.plugins = (webpackConfig.plugins || []).concat([
   new webpack.optimize.UglifyJsPlugin({
     compress: { warnings: false }
   }),
-  new webpack.optimize.OccurenceOrderPlugin(),
-  new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery"
-    })
+  new webpack.optimize.OccurenceOrderPlugin()
 ])
 
 module.exports = webpackConfig

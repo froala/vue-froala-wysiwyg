@@ -8,7 +8,6 @@ import App from './examples/App'
 require('froala-editor/js/froala_editor.min');
 
 require("froala-editor/css/froala_editor.pkgd.min.css");
-require('font-awesome/css/font-awesome.css');
 require('froala-editor/css/froala_style.min.css')
 
 import VueFroala from 'src';
