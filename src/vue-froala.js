@@ -242,7 +242,7 @@ export default (Vue, Options = {}) => {
         }
       },
 
-      // register event on jquery editor element
+      // register event on editor element
       registerEvent: function(element, eventName, callback) {
 
         if (!element || !eventName || !callback) {
