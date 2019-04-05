@@ -1,5 +1,6 @@
 var path = require('path')
 var config = require('../config')
+var webpack = require('webpack')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
@@ -16,9 +17,10 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue'],
     alias: {
-      'src': path.resolve(__dirname, '../src')
+      'src': path.resolve(__dirname, '../src'),
+      FroalaEditor:'froala_editor.pkgd.min.js'
     },
-    modules: [path.join(__dirname, '../node_modules')],
+    modules: [path.join(__dirname, '../node_modules'),path.join(__dirname,'../node_modules/froala-editor/js')],
   },
   module: {
     rules: [{
@@ -58,6 +60,9 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      FroalaEditor: 'froala_editor.pkgd.min.js'
+    }),
     // make sure to include the plugin!
     new VueLoaderPlugin()
   ]

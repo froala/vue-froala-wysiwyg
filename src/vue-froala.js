@@ -1,8 +1,5 @@
-import FroalaEditor from 'froala-editor/js/froala_editor.min.js';
 export default (Vue, Options = {}) => {
      
-  Vue.component('FroalaEditor', FroalaEditor)
-
   var froalaEditorFunctionality = {
 
     props: ['tag', 'value', 'config', 'onManualControllerReady'],
