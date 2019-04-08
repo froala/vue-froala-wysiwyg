@@ -36,7 +36,6 @@ require('froala-editor/js/froala_editor.pkgd.min.js')
 
 // Require Froala Editor css files.
 require('froala-editor/css/froala_editor.pkgd.min.css')
-require('font-awesome/css/font-awesome.css')
 require('froala-editor/css/froala_style.min.css')
 
 // Import and use Vue Froala lib.
@@ -77,7 +76,7 @@ export default {
 
 
 
-#### 2. Make sure you have the right Webpack settings for loading the CSS files, Font Awesome and jQuery.
+#### 2. Make sure you have the right Webpack settings for loading the CSS files.
 
 ```javascript
 var webpack = require('webpack')
@@ -93,17 +92,8 @@ module.exports = {
       {
         test: /\.css$/,
         loader: 'vue-style-loader!css-loader'
-      },
-
-      // Font awesome loader.
-      {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url',
-        query: {
-          limit: 10000,
-          name: path.posix.join('path/to/yours/assets/directory', 'fonts/[name].[hash:7].[ext]')
-        }
       }
+
     ]
   },
   vue: {
@@ -114,17 +104,7 @@ module.exports = {
       // Css loader for Webpack 1.x .
       css: 'vue-style-loader!css-loader'
     }
-  },
-  plugins: [
-
-    // ...
-
-    // Jquery loader plugin.
-    new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery"
-    })
-  ]
+  }
 })
 ```
 
@@ -242,9 +222,9 @@ Gets the functionality to operate on the editor: create, destroy and get editor 
 initialize: function(initControls) {
   this.initControls = initControls;
   this.deleteAll = () => {
-      this.initControls.getEditor()('html.set', '');
-      this.initControls.getEditor()('undo.reset');
-      this.initControls.getEditor()('undo.saveStep');
+      this.initControls.getEditor().html.set('');
+      this.initControls.getEditor().undo.reset();
+      this.initControls.getEditor().undo.saveStep();
   };
 }
 ```
