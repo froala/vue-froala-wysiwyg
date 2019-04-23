@@ -32,7 +32,7 @@ npm install vue-froala-wysiwyg --save
 ...
 
 // Require Froala Editor js file.
-require('froala-editor/js/froala_editor.pkgd.min.js')
+require('froala-editor/js/froala_editor.pkgd.legacy.min.js')
 
 // Require Froala Editor css files.
 require('froala-editor/css/froala_editor.pkgd.min.css')
