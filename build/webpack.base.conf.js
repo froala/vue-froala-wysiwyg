@@ -18,7 +18,7 @@ module.exports = {
     extensions: ['.js', '.vue'],
     alias: {
       'src': path.resolve(__dirname, '../src'),
-      FroalaEditor:'froala_editor.pkgd.legacy.min.js'
+     
     },
     modules: [path.join(__dirname, '../node_modules'),path.join(__dirname,'../node_modules/froala-editor/js')],
   },
@@ -61,7 +61,7 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      FroalaEditor: 'froala_editor.pkgd.legacy.min.js'
+      FroalaEditor: 'froala_editor.pkgd.min.js'
     }),
     // make sure to include the plugin!
     new VueLoaderPlugin()
