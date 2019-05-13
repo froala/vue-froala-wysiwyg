@@ -4,10 +4,10 @@ var webpack = require('webpack')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-
 module.exports = {
   entry: {
     main: './src/main.js',
+
   },
   output: {
     path: config.build.assetsRoot,
@@ -60,9 +60,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.ProvidePlugin({
-      FroalaEditor: 'froala_editor.pkgd.min.js'
-    }),
     // make sure to include the plugin!
     new VueLoaderPlugin()
   ]

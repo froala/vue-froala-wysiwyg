@@ -14,6 +14,11 @@ module.exports = {
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
+  performance: {
+    maxEntrypointSize: 700000,
+	maxAssetSize: 700000
+  },
+ 
   mode: 'production',
   module: {
     rules: [{

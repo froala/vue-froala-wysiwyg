@@ -31,17 +31,21 @@ npm install vue-froala-wysiwyg --save
 ```javascript
 ...
 
-// Require Froala Editor js file.
-require('froala-editor/js/froala_editor.pkgd.min.js')
-
-// Require Froala Editor css files.
-require('froala-editor/css/froala_editor.pkgd.min.css')
-require('froala-editor/css/froala_style.min.css')
+// Import Froala Editor css files.
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+import 'froala-editor/css/froala_style.min.css';
 
 // Import and use Vue Froala lib.
 import VueFroala from 'vue-froala-wysiwyg'
 Vue.use(VueFroala)
 
+...
+```
+#### vue-froala.js file:
+```javascript
+...
+// Import Froala Editor js files.
+import FroalaEditor from 'froala-editor/js/froala_editor.pkgd.min';
 ...
 ```
 
@@ -110,35 +114,11 @@ module.exports = {
 
 #### 3.To use froala_editor.min.js file
 
-#### main.js file:
+#### vue-froala.js file:
 ```javascript
 ...
-
-// Require Froala Editor js file.
-require('froala-editor/js/froala_editor.min.js')
-
-// Require Froala Editor css files.
-require('froala-editor/css/froala_editor.pkgd.min.css')
-require('froala-editor/css/froala_style.min.css')
-
-// Import and use Vue Froala lib.
-import VueFroala from 'vue-froala-wysiwyg'
-Vue.use(VueFroala)
-
-...
-```
-#### webpack.base.conf:
-```javascript
-...
-
-plugins: [
-    new webpack.ProvidePlugin({
-      FroalaEditor: 'froala_editor.min.js'
-    }),
-    // make sure to include the plugin!
-    new VueLoaderPlugin()
-  ]
-
+// import Froala Editor js file.
+import FroalaEditor from 'froala-editor/js/froala_editor.min';
 ...
 ```
 ## Usage
