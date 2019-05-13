@@ -127,7 +127,6 @@ Vue.use(VueFroala)
 
 ...
 ```
-
 ## Usage
 
 ### Initialize
