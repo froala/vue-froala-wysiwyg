@@ -127,20 +127,7 @@ Vue.use(VueFroala)
 
 ...
 ```
-#### webpack.base.conf:
-```javascript
-...
 
-plugins: [
-    new webpack.ProvidePlugin({
-      FroalaEditor: 'froala_editor.min.js'
-    }),
-    // make sure to include the plugin!
-    new VueLoaderPlugin()
-  ]
-
-...
-```
 ## Usage
 
 ### Initialize
