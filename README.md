@@ -53,7 +53,7 @@ import FroalaEditor from 'froala-editor/js/froala_editor.pkgd.min';
 ```javascript
 <template>
   <div id="app">
-    <froala :tag="'textarea'" :config="config" v-model="model"></froala>
+    <froala id="edit" :tag="'textarea'" :config="config" v-model="model"></froala>
   </div>
 </template>
 
@@ -121,6 +121,15 @@ module.exports = {
 import FroalaEditor from 'froala-editor/js/froala_editor.min';
 ...
 ```
+#### 4.To use Font-awesome.
+#### index.html:
+```javascript
+...
+// include Font-awesome CDN.
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+...
+```
+
 ## Usage
 
 ### Initialize
