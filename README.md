@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/dm/vue-froala-wysiwyg.svg)](https://www.npmjs.com/package/vue-froala-wysiwyg)
 [![npm](https://img.shields.io/npm/l/vue-froala-wysiwyg.svg)](https://www.npmjs.com/package/vue-froala-wysiwyg)
 
->vue-froala-wyswiyg provides Vue bindings to the Froala WYSIWYG editor VERSION 2.
+>vue-froala-wyswiyg provides Vue bindings to the Froala WYSIWYG editor VERSION 3.
 
 ## Compatibility
 
