@@ -67,8 +67,6 @@
 </template>
 
 <script>
-import VueFroala from 'src';
-
 export default {
   name: 'app',
   data () {

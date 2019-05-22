@@ -36,17 +36,6 @@ import 'froala-editor/css/froala_editor.pkgd.min.css';
 import VueFroala from 'vue-froala-wysiwyg'
 Vue.use(VueFroala)
 ```
-#### vue-froala.js file:
-```javascript
-// Import all Froala Editor plugins;
-// import 'froala-editor/js/plugins.pkgd.min.js';
-
-// Import a single Froala Editor plugin.
-// import 'froala-editor/js/plugins/align.min.js';
-
-// Import a language file.
-// import 'froala-editor/js/languages/de.js';
-```
 
 #### App.vue file:
 ```javascript
