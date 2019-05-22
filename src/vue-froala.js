@@ -1,6 +1,6 @@
-import FroalaEditor from 'froala-editor/js/froala_editor.pkgd.min';
+import FroalaEditor from 'froala-editor';
 export default (Vue, Options = {}) => {
-     
+
   var froalaEditorFunctionality = {
 
     props: ['tag', 'value', 'config', 'onManualControllerReady'],
@@ -46,9 +46,10 @@ export default (Vue, Options = {}) => {
 
       return {
 
+        initEvents: [],
+
         // Tag on which the editor is initialized.
         currentTag: 'div',
-        listeningEvents: [],
 
         // Editor element.
         _editor: null,
@@ -86,20 +87,22 @@ export default (Vue, Options = {}) => {
         if (this.editorInitialized) {
           return;
         }
+
         this.currentConfig = this.config || this.defaultConfig;
-        
+
         this.setContent(true);
 
+        // Bind editor events.
         this.registerEvents();
-        
-        this._editor = new FroalaEditor('#'+this.$el.id,this.currentConfig)
-        
         this.initListeners();
+
+        this._editor = new FroalaEditor(this.$el, this.currentConfig)
+
         this.editorInitialized = true;
-      
+
       },
 
-      setContent: function(firstTime) {
+      setContent: function (firstTime) {
 
         if (!this.editorInitialized && !firstTime) {
           return;
@@ -118,22 +121,22 @@ export default (Vue, Options = {}) => {
       },
 
       setNormalTagContent: function(firstTime) {
-        
+
         var self = this;
 
         function htmlSet() {
-          
+
           self._editor.html.set(self.model || '');
-          
+
           //This will reset the undo stack everytime the model changes externally. Can we fix this?
-          
+
           self._editor.undo.saveStep();
           self._editor.undo.reset();
-          
+
         }
 
         if (firstTime) {
-          this.registerEvent(this.$el, 'initialized', function () {
+          this.registerEvent('initialized', function () {
             htmlSet();
           });
         } else {
@@ -163,25 +166,19 @@ export default (Vue, Options = {}) => {
 
       destroyEditor: function() {
 
-        if (this.$el) {
+        if (this._editor) {
 
           this._editor.destroy();
-          this.listeningEvents.length = 0;
-          this.$el = null;
           this.editorInitialized = false;
+          this._editor = null;
         }
       },
 
       getEditor: function() {
-        if (this.$el) {
-          return new FroalaEditor('#'+this.$el.id);
-        }
-        return null;
+        return this._editor;
       },
 
       generateManualController: function() {
-
-        var self = this;
         var controls = {
           initialize: this.createEditor,
           destroy: this.destroyEditor,
@@ -191,7 +188,7 @@ export default (Vue, Options = {}) => {
         this.onManualControllerReady(controls);
       },
 
-      updateModel: function() {
+      updateModel: function () {
 
         var modelContent = '';
 
@@ -229,47 +226,80 @@ export default (Vue, Options = {}) => {
       initListeners: function() {
         var self = this;
 
-        // bind contentChange and keyup event to froalaModel
-        this.registerEvent(this.$el, 'contentChanged',function () {
-          self.updateModel();
-        });
-        if (this.currentConfig.immediateVueModelUpdate) {
-          this.registerEvent(this._editor, 'keyup', function () {
+        this.registerEvent('initialized', function () {
+
+          // bind contentChange and keyup event to froalaModel
+          self._editor.events.on('contentChanged', function () {
             self.updateModel();
           });
-        }
+
+          if (self.currentConfig.immediateVueModelUpdate) {
+            self._editor.events.on('keyup', function () {
+              self.updateModel();
+            });
+          }
+        })
       },
 
       // register event on editor element
-      registerEvent: function(element, eventName, callback) {
+      registerEvent: function (eventName, callback) {
 
-        if (!element || !eventName || !callback) {
+        if (!eventName || !callback) {
           return;
         }
 
-        this.listeningEvents.push(eventName);
-        
-        if(!this.currentConfig.events){
-          this.currentConfig.events = {};
-        } 
-        this.currentConfig.events[eventName] = callback;
-        
+        // Initialized event.
+        if (eventName == 'initialized') {
+
+          this.initEvents.push(callback);
+        }
+        else {
+          if (!this.currentConfig.events) {
+            this.currentConfig.events = {};
+          }
+
+          this.currentConfig.events[eventName] = callback;
+        }
+
       },
 
-      registerEvents: function() {
+      registerEvents: function () {
+        // Handle initialized on its own.
+        this.registerInitialized();
 
+        // Get current events.
         var events = this.currentConfig.events;
+
         if (!events) {
           return;
         }
 
         for (var event in events) {
-          if (events.hasOwnProperty(event)) {
-            this.registerEvent(this.$el, event, events[event]);
+          if (events.hasOwnProperty(event) && event != 'initialized') {
+            this.registerEvent(event, events[event]);
+          }
+        }
+      },
+
+      registerInitialized: function () {
+        // Bind initialized.
+        if(!this.currentConfig.events) {
+          this.currentConfig.events = {};
+        }
+
+        // Set original initialized event.
+        if (this.currentConfig.events.initialized) {
+          this.registerEvent('initialized', this.currentConfig.events.initialized);
+        }
+
+        // Bind initialized event.
+        this.currentConfig.events.initialized = () => {
+          for (var i = 0; i < this.initEvents.length; i++) {
+            this.initEvents[i].call(this._editor);
           }
         }
       }
-    }    
+    }
   };
 
   Vue.component('Froala', froalaEditorFunctionality);

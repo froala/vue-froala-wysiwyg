@@ -4,13 +4,13 @@
     <h1>Vue adapter for the Froala WYSIWYG editor</h1>
     <div class="sample">
       <h2>Sample 1: Inline Edit</h2>
-      <froala id="sample1" :config="titleOptions" v-model="myTitle"></froala>
+      <froala :config="titleOptions" v-model="myTitle"></froala>
       <input v-model="myTitle"/>
     </div>
 
      <div class="sample">
       <h2>Sample 2: Full Editor</h2>
-      <froala id="sample2" v-model="content"></froala>
+      <froala v-model="content"></froala>
       <h4>Rendered Content:</h4>
       <froalaView v-model="content"></froalaView>
     </div>
@@ -61,7 +61,7 @@
       </div>
       <h4>Model Obj:</h4>
       <div>{{linkModel}}</div>
-    </div> 
+    </div>
 
   </div>
 </template>
@@ -81,8 +81,8 @@ export default {
         charCounterCount: false,
         toolbarInline: true,
         events: {
-          'froalaEditor.initialized': function() {
-            console.log('initialized');
+          'initialized': function() {
+            console.log('initialized', this);
           }
         }
       },

@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
-    "froala-editor": "3.0.0-beta.1",
+    "froala-editor": "froala/wysiwyg-editor",
     "vue": "2.6.6"
   },
   "devDependencies": {
