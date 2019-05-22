@@ -92,7 +92,7 @@ export default (Vue, Options = {}) => {
 
         this.registerEvents();
         
-        this._editor = new FroalaEditor('#'+this.$el.id,this.currentConfig)
+        this._editor = new FroalaEditor(this.$el,this.currentConfig)
         
         this.initListeners();
         this.editorInitialized = true;

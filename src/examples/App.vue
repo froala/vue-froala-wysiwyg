@@ -4,21 +4,21 @@
     <h1>Vue adapter for the Froala WYSIWYG editor</h1>
     <div class="sample">
       <h2>Sample 1: Inline Edit</h2>
-      <froala id="sample1" :config="titleOptions" v-model="myTitle"></froala>
+      <froala :config="titleOptions" v-model="myTitle"></froala>
       <input v-model="myTitle"/>
     </div>
 
      <div class="sample">
       <h2>Sample 2: Full Editor</h2>
-      <froala id="sample2" v-model="content"></froala>
+      <froala v-model="content"></froala>
       <h4>Rendered Content:</h4>
       <froalaView v-model="content"></froalaView>
     </div>
 
     <div class="sample">
       <h2>Sample 3: Two way binding</h2>
-      <froala id="sample3" v-model="twoWayContent"></froala>
-      <froala id="sample4" v-model="twoWayContent"></froala>
+      <froala v-model="twoWayContent"></froala>
+      <froala v-model="twoWayContent"></froala>
     </div>
 
     <div class="sample">
@@ -26,20 +26,20 @@
       <button class="manual" v-on:click="createEditor()" v-if="!showEditor">Initialize Editor</button>
       <button v-on:click="destroyEditor()" v-if="showEditor">Close Editor</button>
       <button v-on:click="deleteAll()" v-if="showEditor">Delete All</button>
-      <froala id="sample5" :onManualControllerReady="initialize" v-model="sample3Text">Check out the <a href="https://www.froala.com/wysiwyg-editor">Froala Editor</a></froala>
+      <froala :onManualControllerReady="initialize" v-model="sample3Text">Check out the <a href="https://www.froala.com/wysiwyg-editor">Froala Editor</a></froala>
     </div>
 
     <div class="sample">
       <h2>Sample 5: Editor on 'img' tag. Two way binding. Style is ignored (vueIgnoreAttrs) and will not be updated in the model.</h2>
-      <froala id="sample6" :tag="'img'" :config="imageOptions" v-model="imgModel"></froala>
-      <froala id="sample7" :tag="'img'" :config="imageOptions" v-model="imgModel"></froala>
+      <froala :tag="'img'" :config="imageOptions" v-model="imgModel"></froala>
+      <froala :tag="'img'" :config="imageOptions" v-model="imgModel"></froala>
       <h4>Model Obj:</h4>
       <div>{{imgModel}}</div>
     </div>
 
     <div class="sample">
       <h2>Sample 6: Editor on 'button' tag</h2>
-      <froala id="sample8" :tag="'button'" v-model="buttonModel"></froala>
+      <froala :tag="'button'" v-model="buttonModel"></froala>
       <h4>Model Obj:</h4>
       <div>{{buttonModel}}</div>
     </div>
@@ -47,7 +47,7 @@
 
     <div class="sample">
       <h2>Sample 7: Editor on 'input' tag</h2>
-      <froala id="sample9" :tag="'input'" v-model="inputModel"></froala>
+      <froala :tag="'input'" v-model="inputModel"></froala>
       <h4>Model Obj:</h4>
       <div>{{inputModel}}</div>
     </div>
@@ -57,7 +57,7 @@
       <button class="manual" v-on:click="linkCreateEditor()" v-if="!linkShowEditor">Initialize Editor</button>
       <button v-on:click="linkDestroyEditor()" v-if="linkShowEditor">Close Editor</button>
       <div>
-        <froala id="sample10" class="blabla" :tag="'a'" :onManualControllerReady="initializeLink" v-model="linkModel">Froala Editor</froala>
+        <froala class="blabla" :tag="'a'" :onManualControllerReady="initializeLink" v-model="linkModel">Froala Editor</froala>
       </div>
       <h4>Model Obj:</h4>
       <div>{{linkModel}}</div>
@@ -77,14 +77,15 @@ export default {
       // Sample 1
       myTitle: '',
       titleOptions: {
+        language: 'ar',
         placeholderText: 'Edit Your Content Here!',
         charCounterCount: false,
         toolbarInline: true,
-        events: {
-          'froalaEditor.initialized': function() {
-            console.log('initialized');
-          }
-        }
+         events: {
+           'initialized': function() {
+             console.log('initialized');
+           }
+         }
       },
 
       // Sample 2

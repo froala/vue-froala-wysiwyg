@@ -6,7 +6,6 @@ import App from './examples/App'
 
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/css/froala_style.min.css';
-import 'font-awesome/css/font-awesome.css';
 
 import VueFroala from 'src';
 

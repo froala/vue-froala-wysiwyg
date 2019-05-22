@@ -53,7 +53,7 @@ import FroalaEditor from 'froala-editor/js/froala_editor.pkgd.min';
 ```javascript
 <template>
   <div id="app">
-    <froala id="edit" :tag="'textarea'" :config="config" v-model="model"></froala>
+    <froala :tag="'textarea'" :config="config" v-model="model"></froala>
   </div>
 </template>
 
@@ -66,7 +66,7 @@ export default {
     return {
       config: {
         events: {
-          'froalaEditor.initialized': function () {
+          'initialized': function () {
             console.log('initialized')
           }
         }
@@ -171,7 +171,7 @@ Events can be passed in with the options, with a key events and object where the
 config: {
   placeholder: "Edit Me",
   events : {
-    'froalaEditor.focus' : function(e, editor) {
+    'focus' : function(e, editor) {
       console.log(editor.selection.get());
     }
   }
