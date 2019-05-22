@@ -29,24 +29,23 @@ npm install vue-froala-wysiwyg --save
 
 #### main.js file:
 ```javascript
-...
-
 // Import Froala Editor css files.
 import 'froala-editor/css/froala_editor.pkgd.min.css';
-import 'froala-editor/css/froala_style.min.css';
 
 // Import and use Vue Froala lib.
 import VueFroala from 'vue-froala-wysiwyg'
 Vue.use(VueFroala)
-
-...
 ```
 #### vue-froala.js file:
 ```javascript
-...
-// Import Froala Editor js files.
-import FroalaEditor from 'froala-editor/js/froala_editor.pkgd.min';
-...
+// Import all Froala Editor plugins;
+// import 'froala-editor/js/plugins.pkgd.min.js';
+
+// Import a single Froala Editor plugin.
+// import 'froala-editor/js/plugins/align.min.js';
+
+// Import a language file.
+// import 'froala-editor/js/languages/de.js';
 ```
 
 #### App.vue file:
@@ -66,7 +65,7 @@ export default {
     return {
       config: {
         events: {
-          'froalaEditor.initialized': function () {
+          initialized: function () {
             console.log('initialized')
           }
         }
@@ -112,24 +111,6 @@ module.exports = {
 })
 ```
 
-#### 3.To use froala_editor.min.js file
-
-#### vue-froala.js file:
-```javascript
-...
-// import Froala Editor js file.
-import FroalaEditor from 'froala-editor/js/froala_editor.min';
-...
-```
-#### 4.To use Font-awesome.
-#### index.html:
-```javascript
-...
-// include Font-awesome CDN.
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-...
-```
-
 ## Usage
 
 ### Initialize
@@ -171,7 +152,7 @@ Events can be passed in with the options, with a key events and object where the
 config: {
   placeholder: "Edit Me",
   events : {
-    'froalaEditor.focus' : function(e, editor) {
+    focus : function(e, editor) {
       console.log(editor.selection.get());
     }
   }
