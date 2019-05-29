@@ -199,7 +199,55 @@ config: {
   vueIgnoreAttrs: ['class', 'id']
 }
  ```
+### Custom Buttons
 
+You can pass the custom buttons to the editor by following way:
+#### App.vue file:
+```javascript
+<script>
+import FroalaEditor from 'froala-editor';
+
+FroalaEditor.DefineIcon('alert', {NAME: 'info', SVG_KEY: 'help'});
+  FroalaEditor.RegisterCommand('alert', {
+    title: 'Hello',
+    focus: false,
+    undo: false,
+    refreshAfterCallback: false,
+    callback: function () {
+      alert('Hello!');
+    }
+  });
+
+  FroalaEditor.DefineIcon('clear', {NAME: 'remove', SVG_KEY: 'remove'});
+  FroalaEditor.RegisterCommand('clear', {
+    title: 'Clear HTML',
+    focus: false,
+    undo: true,
+    refreshAfterCallback: true,
+    callback: function () {
+      this.html.set('');
+      this.events.focus();
+    }
+  });
+
+  FroalaEditor.DefineIcon('insert', {NAME: 'plus', SVG_KEY: 'add'});
+  FroalaEditor.RegisterCommand('insert', {
+    title: 'Insert HTML',
+    focus: true,
+    undo: true,
+    refreshAfterCallback: true,
+    callback: function () {
+      this.html.insert('My New HTML');
+    }
+  });
+  </script>
+  
+ ```
+ Now you can use these buttons in options:
+ ```javascript
+ toolbarButtons: [['undo', 'redo' , 'bold'], ['alert', 'clear', 'insert']],
+
+ ```
 
 
 ## Manual Instantiation
