@@ -275,6 +275,7 @@ FroalaEditor.DefineIcon('alert', {NAME: 'info', SVG_KEY: 'help'});
   
  ```
  Now you can use these buttons in options:
+ 
  ```javascript
  toolbarButtons: [['undo', 'redo' , 'bold'], ['alert', 'clear', 'insert']],
 
