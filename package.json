@@ -1,6 +1,6 @@
 {
   "name": "vue-froala-wysiwyg",
-  "version": "2.9.5",
+  "version": "2.9.6",
   "description": "Vue plugin for Froala WYSIWYG HTML rich text editor.",
   "author": "Froala Labs (https://www.froala.com/)",
   "license": "https://froala.com/wysiwyg-editor/terms/",
@@ -38,12 +38,12 @@
     "dev": "node build/dev-server.js",
     "build": "yarn run release && yarn run build:es",
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
-    "release": "webpack --progress --hide-modules --config  ./build/webpack.release.js && NODE_ENV=production webpack --progress --hide-modules --config  ./build/webpack.release.min.js",
+    "release": "SET NODE_ENV=production && webpack --progress --hide-modules --config  ./build/webpack.release.js && webpack --progress --hide-modules --config  ./build/webpack.release.min.js",
     "prepublish": "yarn run build"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
-    "froala-editor": "2.9.5",
+    "froala-editor": "2.9.6",
     "vue": "2.6.6"
   },
   "devDependencies": {
