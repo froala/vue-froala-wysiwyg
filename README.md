@@ -21,7 +21,11 @@ Install `vue-froala-wysiwyg` from `npm`
 npm install vue-froala-wysiwyg --save
 ```
 
+Install babel dependency
 
+```
+npm install --save --dev @babel/runtime-corejs2
+```
 
 ## Integration
 
@@ -46,7 +50,6 @@ Vue.use(VueFroala)
 </template>
 
 <script>
-import VueFroala from 'vue-froala-wysiwyg';
 
 export default {
   name: 'app',
@@ -64,40 +67,6 @@ export default {
   }
 }
 </script>
-```
-
-
-
-#### 2. Make sure you have the right Webpack settings for loading the CSS files.
-
-```javascript
-var webpack = require('webpack')
-var path = require('path')
-
-module.exports = {
-  module: {
-    loaders: [
-
-      // ...
-
-      // Css loader.
-      {
-        test: /\.css$/,
-        loader: 'vue-style-loader!css-loader'
-      }
-
-    ]
-  },
-  vue: {
-    loaders: {
-
-      // ...
-
-      // Css loader for Webpack 1.x .
-      css: 'vue-style-loader!css-loader'
-    }
-  }
-})
 ```
 
 ## Usage
