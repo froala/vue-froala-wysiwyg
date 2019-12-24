@@ -21,7 +21,11 @@ Install `vue-froala-wysiwyg` from `npm`
 npm install vue-froala-wysiwyg --save
 ```
 
+Install babel dependency
 
+```
+npm install --save --dev @babel/runtime-corejs2
+```
 
 ## Integration
 
@@ -29,12 +33,24 @@ npm install vue-froala-wysiwyg --save
 
 #### main.js file:
 ```javascript
+//Import Froala Editor 
+import 'froala-editor/js/plugins.pkgd.min.js';
 // Import Froala Editor css files.
 import 'froala-editor/css/froala_editor.pkgd.min.css';
-
+// Import third party plugins
+import 'froala-editor/js/third_party/embedly.min';
+import 'froala-editor/js/third_party/font_awesome.min';
+import 'froala-editor/js/third_party/spell_checker.min';
+import 'froala-editor/js/third_party/image_tui.min';
 // Import and use Vue Froala lib.
 import VueFroala from 'vue-froala-wysiwyg'
 Vue.use(VueFroala)
+Vue.config.productionTip = false
+
+new Vue({
+  render: h => h(App),
+  
+}).$mount('#app')
 ```
 
 #### App.vue file:
@@ -46,7 +62,6 @@ Vue.use(VueFroala)
 </template>
 
 <script>
-import VueFroala from 'vue-froala-wysiwyg';
 
 export default {
   name: 'app',
@@ -64,40 +79,6 @@ export default {
   }
 }
 </script>
-```
-
-
-
-#### 2. Make sure you have the right Webpack settings for loading the CSS files.
-
-```javascript
-var webpack = require('webpack')
-var path = require('path')
-
-module.exports = {
-  module: {
-    loaders: [
-
-      // ...
-
-      // Css loader.
-      {
-        test: /\.css$/,
-        loader: 'vue-style-loader!css-loader'
-      }
-
-    ]
-  },
-  vue: {
-    loaders: {
-
-      // ...
-
-      // Css loader for Webpack 1.x .
-      css: 'vue-style-loader!css-loader'
-    }
-  }
-})
 ```
 
 ## Usage
