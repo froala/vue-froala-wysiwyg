@@ -165,9 +165,9 @@ export default (Vue, Options = {}) => {
       },
 
       destroyEditor: function() {
+        this.initEvents = [];
 
         if (this._editor) {
-
           this._editor.destroy();
           this.editorInitialized = false;
           this._editor = null;
