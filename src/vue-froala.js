@@ -90,15 +90,13 @@ export default (Vue, Options = {}) => {
 
         this.currentConfig = this.config || this.defaultConfig;
 
+        this._editor = new FroalaEditor(this.$el, this.currentConfig, () => {
+          this.initListeners();
+          this.editorInitialized = true;
+        });
         this.setContent(true);
-
         // Bind editor events.
         this.registerEvents();
-        this.initListeners();
-
-        this._editor = new FroalaEditor(this.$el, this.currentConfig)
-
-        this.editorInitialized = true;
 
       },
 
