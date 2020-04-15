@@ -15,6 +15,21 @@
 
 ## Installation
 
+### Use with Vue CLI
+
+#### Generating simple webpack boilerplate with Vue-cli
+
+*Note*: you can skip this part if you already have application generated.
+
+```bash
+npm install -g vue-cli
+vue init webpack-simple my-project
+cd my-project
+npm install
+npm run dev
+```
+
+#### Add vue-froala-wysiwyg
 Install `vue-froala-wysiwyg` from `npm`
 
 ```bash
@@ -78,6 +93,8 @@ export default {
 
 
 #### 2. Make sure you have the right Webpack settings for loading the CSS files, Font Awesome and jQuery.
+
+*Note*: you can skip this part if you created your application using boiler plate generation code stated above.
 
 ```javascript
 var webpack = require('webpack')
