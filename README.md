@@ -46,6 +46,15 @@ Vue.use(VueFroala)
 ...
 ```
 
+Optional - To include plugins here:
+
+```javascript
+require('froala-editor/js/third_party/font_awesome.min.js');
+require('froala-editor/css/third_party/font_awesome.min.css');
+require('froala-editor/js/third_party/spell_checker.min.js');
+require('froala-editor/css/third_party/spell_checker.min.css');
+```
+
 #### App.vue file:
 ```javascript
 <template>
@@ -71,15 +80,6 @@ export default {
   }
 }
 </script>
-```
-
-If you need to include additional plugins, then include the respective `js` and `css` files in the file `main.js`.
-
-```javascript
-require('froala-editor/js/third_party/font_awesome.min.js');
-require('froala-editor/css/third_party/font_awesome.min.css');
-require('froala-editor/js/third_party/spell_checker.min.js');
-require('froala-editor/css/third_party/spell_checker.min.css');
 ```
 
 #### 2. Make sure you have the right Webpack settings for loading the CSS files, Font Awesome and jQuery.
