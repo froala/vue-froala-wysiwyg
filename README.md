@@ -55,8 +55,6 @@ Vue.use(VueFroala)
 </template>
 
 <script>
-import VueFroala from 'vue-froala-wysiwyg';
-
 export default {
   name: 'app',
   data () {
@@ -75,7 +73,7 @@ export default {
 </script>
 ```
 
-If you need to include the additional plugins, then include the respective `js` and `css` files in the file `main.js`.
+If you need to include additional plugins, then include the respective `js` and `css` files in the file `main.js`.
 
 ```javascript
 require('froala-editor/js/third_party/font_awesome.min.js');
