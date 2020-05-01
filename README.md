@@ -46,6 +46,15 @@ Vue.use(VueFroala)
 ...
 ```
 
+Optional - To include plugins here:
+
+```javascript
+require('froala-editor/js/third_party/font_awesome.min.js');
+require('froala-editor/css/third_party/font_awesome.min.css');
+require('froala-editor/js/third_party/spell_checker.min.js');
+require('froala-editor/css/third_party/spell_checker.min.css');
+```
+
 #### App.vue file:
 ```javascript
 <template>
@@ -55,8 +64,6 @@ Vue.use(VueFroala)
 </template>
 
 <script>
-import VueFroala from 'vue-froala-wysiwyg';
-
 export default {
   name: 'app',
   data () {
@@ -74,8 +81,6 @@ export default {
 }
 </script>
 ```
-
-
 
 #### 2. Make sure you have the right Webpack settings for loading the CSS files, Font Awesome and jQuery.
 
