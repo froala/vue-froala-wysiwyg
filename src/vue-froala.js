@@ -88,7 +88,7 @@ export default (Vue, Options = {}) => {
           return;
         }
 
-        this.currentConfig = this.config || this.defaultConfig;
+        this.currentConfig = this.clone(this.config || this.defaultConfig);
 
         this.setContent(true);
 
@@ -100,6 +100,11 @@ export default (Vue, Options = {}) => {
 
         this.editorInitialized = true;
 
+      },
+
+       // Return clone object 
+      clone: function(item) {
+        return JSON.parse(JSON.stringify(item))
       },
 
       setContent: function (firstTime) {
