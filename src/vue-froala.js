@@ -89,7 +89,6 @@ export default (Vue, Options = {}) => {
         }
 
         this.currentConfig = this.clone(this.config || this.defaultConfig);
-        this.currentConfig =  {...this.currentConfig};
 
         this.setContent(true);
 
@@ -178,12 +177,21 @@ export default (Vue, Options = {}) => {
 
         function htmlSet() {
 
-          self._editor.html.set(self.model || '');
+           // Check if editor not null
+           if (self._editor == null) {
+            return;
+           }
+      
+          if (self._editor.html != undefined) {
+           self._editor.html.set(self.model || '');
+           }
 
           //This will reset the undo stack everytime the model changes externally. Can we fix this?
 
-          self._editor.undo.saveStep();
-          self._editor.undo.reset();
+          if (self._editor.undo != undefined) {
+            self._editor.undo.saveStep();
+            self._editor.undo.reset();
+          }
 
         }
 
@@ -217,6 +225,7 @@ export default (Vue, Options = {}) => {
       },
 
       destroyEditor: function() {
+        this.initEvents = [];
 
         if (this._editor) {
 
@@ -279,7 +288,12 @@ export default (Vue, Options = {}) => {
         var self = this;
 
         this.registerEvent('initialized', function () {
-          if (self._editor.events) {
+
+           // Editor initialized
+         self.editorInitialized = true;
+         
+       // Check if editor not null and editor has events
+          if (self._editor != null && self._editor.events) {
             // bind contentChange and keyup event to froalaModel
             self._editor.events.on('contentChanged', function () {
               self.updateModel();
