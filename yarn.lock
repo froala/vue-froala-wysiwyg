@@ -3118,10 +3118,10 @@ fresh@0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-froala-editor@^3.2.5-1:
-  version "3.2.5-1"
-  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-3.2.5-1.tgz#461c4691da5492639d70dc8c468d11d8bb5baeef"
-  integrity sha512-OURDcb3tWNQNjcHOkF8DzVEnTROKGfd+sreC7JfwQQrfQNLVgeTbzcn9lRUbQ20E70spXFoPNj/pe46TgBHCBg==
+froala-editor@^3.2.6:
+  version "3.2.6"
+  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-3.2.6.tgz#dbbe7dd2aa63a9ca1d17ecf8d88d331a9ff9b89b"
+  integrity sha512-y2nojLDb5fPQ25IHxnFRbPrzCF6MjujcnFU3vC7hBNkxQ6JPIgNaYbYm9LNQPuld0MIqG4Usk2EXt1MBwBLu8w==
 
 from2@^2.1.0:
   version "2.3.0"
