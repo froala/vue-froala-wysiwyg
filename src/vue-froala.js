@@ -1,13 +1,13 @@
 import FroalaEditor from 'froala-editor';
-export default (Vue, Options = {}) => {
+export default (App, Options = {}) => {
 
   var froalaEditorFunctionality = {
 
-    props: ['tag', 'value', 'config', 'onManualControllerReady'],
+    props: ['tag', 'modelValue', 'config', 'onManualControllerReady'],
 
     watch: {
-      value: function () {
-        this.model = this.value;
+      modelValue: function () {
+        this.model = this.modelValue;
         this.updateValue();
       }
     },
@@ -21,7 +21,7 @@ export default (Vue, Options = {}) => {
 
     created: function () {
       this.currentTag = this.tag || this.currentTag;
-      this.model = this.value;
+      this.model = this.modelValue;
     },
 
     // After first time render.
@@ -272,7 +272,7 @@ export default (Vue, Options = {}) => {
         }
 
         this.oldModel = modelContent;
-        this.$emit('input', modelContent);
+        this.$emit('update:modelValue', modelContent);
       },
 
       initListeners: function() {
@@ -384,8 +384,8 @@ export default (Vue, Options = {}) => {
     mounted: function() {
       this._element = this.$el;
 
-      if (this.value) {
-         this._element.innerHTML = this.value
+      if (this.modelValue) {
+         this._element.innerHTML = this.modelValue
       }
     },
 
@@ -398,5 +398,5 @@ export default (Vue, Options = {}) => {
     }
   };
 
-  Vue.component('FroalaView', froalaViewFunctionality);
+  App.component('FroalaView', froalaViewFunctionality);
 }

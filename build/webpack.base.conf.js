@@ -3,7 +3,7 @@ var config = require('../config')
 var webpack = require('webpack')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 module.exports = {
   entry: {
     main: './src/main.js',

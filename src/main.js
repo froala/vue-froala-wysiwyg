@@ -6,11 +6,13 @@ import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/js/plugins.pkgd.min.js';
 
 import App from './examples/App'
-import Vue from 'vue'
+import { createApp, h } from 'vue'
 import VueFroala from 'src';
 
-Vue.use(VueFroala);
-new Vue({
- render: h => h(App)
+let VueApp = new createApp({
+ render: () => h(App)
+});
 
-}).$mount('#app')
+VueApp.use(VueFroala);
+
+VueApp.$mount('#app');
