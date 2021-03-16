@@ -41,13 +41,14 @@ import 'froala-editor/css/froala_editor.pkgd.min.css';
 
 // Import and use Vue Froala lib.
 import VueFroala from 'vue-froala-wysiwyg'
-Vue.use(VueFroala)
-Vue.config.productionTip = false
 
-new Vue({
-  render: h => h(App),
-  
-}).$mount('#app')
+let VueApp = createApp({
+  render: () => h(App)
+});
+
+VueApp.use(VueFroala);
+
+VueApp.mount('#app');
 
 ```
 
@@ -60,8 +61,6 @@ new Vue({
 </template>
 
 <script>
-import VueFroala from 'vue-froala-wysiwyg';
-
 export default {
   name: 'app',
   data () {
@@ -292,12 +291,12 @@ The object received by the function will contain the following methods:
 
 ## Displaying HTML
 
-To display content created with the froala editor use the `froalaView` component.
+To display content created with the froala editor use the `froala-view` component.
 
 ```javascript
 <froala v-model="content"></froala>
 
-<froalaView v-model="content"></froalaView>
+<froala-view v-model="content"></froala-view>
 ```
 
 

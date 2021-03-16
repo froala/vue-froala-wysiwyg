@@ -9,10 +9,10 @@ import App from './examples/App'
 import { createApp, h } from 'vue'
 import VueFroala from 'src';
 
-let VueApp = new createApp({
+let VueApp = createApp({
  render: () => h(App)
 });
 
 VueApp.use(VueFroala);
 
-VueApp.$mount('#app');
+VueApp.mount('#app');

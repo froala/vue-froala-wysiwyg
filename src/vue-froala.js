@@ -1,5 +1,8 @@
 import FroalaEditor from 'froala-editor';
+import { h } from 'vue';
 export default (App, Options = {}) => {
+
+  console.log(App);
 
   var froalaEditorFunctionality = {
 
@@ -12,8 +15,8 @@ export default (App, Options = {}) => {
       }
     },
 
-    render: function (createElement) {
-      return createElement(
+    render: function () {
+      return h(
         this.currentTag,
         [this.$slots.default]
       )
@@ -355,7 +358,7 @@ export default (App, Options = {}) => {
     }
   };
 
-  Vue.component('Froala', froalaEditorFunctionality);
+  App.component('Froala', froalaEditorFunctionality);
 
   var froalaViewFunctionality = {
 
@@ -371,8 +374,8 @@ export default (App, Options = {}) => {
       this.currentTag = this.tag || this.currentTag;
     },
 
-    render: function (createElement) {
-      return createElement(
+    render: function () {
+      return h(
         this.currentTag,
         {
           class: 'fr-view'
