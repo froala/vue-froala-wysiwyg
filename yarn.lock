@@ -3118,10 +3118,10 @@ fresh@0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-froala-editor@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-4.0.0.tgz#fde6a3645727fc33daffdb376b7d158226974e36"
-  integrity sha512-/nHMuA/MYZnNx0TbrGnGJoiRuRHFN6JKtvfV6So0j3Ijwyj48s8NhU4AAzQx4ge8Jx5JmcHf5jJX4sDcJAU+CQ==
+froala-editor@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-4.0.1.tgz#d6079a3f40ce53c8cb6700a2e2b5820003835dfa"
+  integrity sha512-cS3mylLwIATfVXR+imTfg4U4sRbIcWsQ6dqhI5qWuiMwSpusNFz391X5NNfrYibqNDmqXjTJVzqmZb1AZNR8HA==
 
 from2@^2.1.0:
   version "2.3.0"
@@ -5195,9 +5195,9 @@ postcss-value-parser@^3.3.0, postcss-value-parser@^3.3.1:
   integrity sha512-pISE66AbVkp4fDQ7VHBwRNXzAAKJjw4Vw7nWI/+Q3vuly7SNfgYXvm6i5IgFylHGK5sP/xHAbB7N49OS4gWNyQ==
 
 postcss@^7.0.14, postcss@^7.0.5, postcss@^7.0.6:
-  version "7.0.35"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.35.tgz#d2be00b998f7f211d8a276974079f2e92b970e24"
-  integrity sha512-3QT8bBJeX/S5zKTTjTCIjRF3If4avAT6kqxcASlTWEtAFCb9NH0OUxNDfgZSWdP5fJnBYCMEWkIFfWeugjzYMg==
+  version "7.0.36"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.36.tgz#056f8cffa939662a8f5905950c07d5285644dfcb"
+  integrity sha512-BebJSIUMwJHRH0HAQoxN4u1CN86glsrwsW0q7T+/m44eXOUAxSNdHRkNZPYz5vVUbg17hFgOQDE7fZk7li3pZw==
   dependencies:
     chalk "^2.4.2"
     source-map "^0.6.1"
