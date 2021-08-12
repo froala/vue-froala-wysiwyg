@@ -3118,10 +3118,10 @@ fresh@0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-froala-editor@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-4.0.0.tgz#fde6a3645727fc33daffdb376b7d158226974e36"
-  integrity sha512-/nHMuA/MYZnNx0TbrGnGJoiRuRHFN6JKtvfV6So0j3Ijwyj48s8NhU4AAzQx4ge8Jx5JmcHf5jJX4sDcJAU+CQ==
+froala-editor@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-4.0.4.tgz#71c87d36da3e05fd4e744af244bc00c23fb270e5"
+  integrity sha512-0g+ZRh4bDNC3ORevmXoui/+/eMqy2oBvbYn5KAwEyKH/JEGWsvg7MYrLdEjKhdFq8h93nEbmeMrcqsB2Y6Q9kw==
 
 from2@^2.1.0:
   version "2.3.0"
@@ -5091,9 +5091,9 @@ path-key@^2.0.0, path-key@^2.0.1:
   integrity sha1-QRyttXTFoUDTpLGRDUDYDMn0C0A=
 
 path-parse@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
-  integrity sha512-GSmOT2EbHrINBf9SR7CDELwlJ8AENk3Qn7OikK4nFYAu3Ote2+JYNVvkpAEQm3/TLNEJFD/xZJjzyxg3KBWOzw==
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
+  integrity sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==
 
 path-to-regexp@0.1.7:
   version "0.1.7"
