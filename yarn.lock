@@ -3118,10 +3118,10 @@ fresh@0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-froala-editor@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-4.0.0.tgz#fde6a3645727fc33daffdb376b7d158226974e36"
-  integrity sha512-/nHMuA/MYZnNx0TbrGnGJoiRuRHFN6JKtvfV6So0j3Ijwyj48s8NhU4AAzQx4ge8Jx5JmcHf5jJX4sDcJAU+CQ==
+froala-editor@^4.0.8:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-4.0.8.tgz#6fc435c99a0b6a9b7be7e3c91f5df49fbb7c4cbd"
+  integrity sha512-zoRAWnwvzWZ3vuXDv64lO6r4Gbn4fqKLZyBj9Cwl+9pONpDP9eaftxjxuY5ohahLM2zha/S4aqfDvT7Ecte7Lg==
 
 from2@^2.1.0:
   version "2.3.0"
@@ -5867,9 +5867,9 @@ shebang-regex@^1.0.0:
   integrity sha1-2kL0l0DAtC2yypcoVxyxkMmO/qM=
 
 shelljs@^0.8.3:
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.4.tgz#de7684feeb767f8716b326078a8a00875890e3c2"
-  integrity sha512-7gk3UZ9kOfPLIAbslLzyWeGiEqx9e3rxwZM0KE6EL8GlGwjym9Mrlx5/p33bWTu9YG6vcS4MBxYZDHYr5lr8BQ==
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.5.tgz#de055408d8361bed66c669d2f000538ced8ee20c"
+  integrity sha512-TiwcRcrkhHvbrZbnRcFYMLl30Dfov3HKqzp5tO5b4pt6G/SezKcYhmDg15zXVBswHmctSAQKznqNW2LO5tTDow==
   dependencies:
     glob "^7.0.0"
     interpret "^1.0.0"
