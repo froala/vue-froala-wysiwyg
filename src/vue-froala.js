@@ -143,7 +143,6 @@ export default (Vue, Options = {}) => {
                 for (var i in item) {
                   switch( i ) {
                     case "scrollableContainer":
-                    case "iframe_document":
                       result[i] = item[i];
                       break;
                     default: result[i] = me.clone(item[i]); break;
