@@ -3,12 +3,16 @@ export default (Vue, Options = {}) => {
 
   var froalaEditorFunctionality = {
 
-    props: ['tag', 'value', 'config', 'onManualControllerReady'],
+    props: ['tag', 'value', 'config', 'disabled', 'onManualControllerReady'],
 
     watch: {
       value: function () {
         this.model = this.value;
         this.updateValue();
+      },
+      disabled(value) {
+        if (value) this._editor.edit.off();
+        else this._editor.edit.on();
       }
     },
 
@@ -137,7 +141,13 @@ export default (Vue, Options = {}) => {
                 // it is an object literal
                 result = {};
                 for (var i in item) {
-                  result[i] = me.clone(item[i]);
+                  switch( i ) {
+                    case "scrollableContainer":
+                    case "iframe_document":
+                      result[i] = item[i];
+                      break;
+                    default: result[i] = me.clone(item[i]); break;
+                  }
                 }
               }
             } else {
