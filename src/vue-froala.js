@@ -197,9 +197,6 @@ export default (App, Options = {}) => {
           this.registerEvent('initialized', function () {
             htmlSet();
           });
-          this.registerEvent('codeView.update', function () {
-            this.updateModel();
-          });
         } else {
           htmlSet();
         }
