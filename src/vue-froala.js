@@ -275,6 +275,10 @@ export default (App, Options = {}) => {
           }
         }
 
+        if ( this._editor.codeView.isActive ) {
+          modelContent = this._editor.codeView.get();
+        }
+
         this.oldModel = modelContent;
         this.$emit('update:modelValue', modelContent);
       },
