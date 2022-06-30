@@ -90,6 +90,7 @@ export default (App, Options = {}) => {
           return;
         }
 
+
         this.currentConfig = this.clone(this.config || this.defaultConfig);
         this.currentConfig = { ...this.currentConfig };
 
@@ -100,6 +101,7 @@ export default (App, Options = {}) => {
         this.initListeners();
 
         this._editor = new FroalaEditor(this.$el, this.currentConfig)
+        this._interval = null;
 
         this.editorInitialized = true;
 
@@ -230,6 +232,8 @@ export default (App, Options = {}) => {
           this._editor.destroy();
           this.editorInitialized = false;
           this._editor = null;
+          clearInterval(this._interval);
+          this._interval = null;
         }
       },
 
@@ -292,8 +296,6 @@ export default (App, Options = {}) => {
 
       initListeners: function () {
         var self = this;
-
-        self._interval = null;
 
         this.registerEvent('initialized', function () {
           if ( self._editor.events ) {
