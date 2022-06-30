@@ -2,8 +2,6 @@ import FroalaEditor from 'froala-editor';
 import { h } from 'vue';
 export default (App, Options = {}) => {
 
-  console.log(App);
-
   var froalaEditorFunctionality = {
 
     props: ['tag', 'modelValue', 'config', 'onManualControllerReady'],
@@ -193,6 +191,9 @@ export default (App, Options = {}) => {
         if (firstTime) {
           this.registerEvent('initialized', function () {
             htmlSet();
+          });
+          this.registerEvent('codeView.update', function() {
+            this.updateModel();
           });
         } else {
           htmlSet();
