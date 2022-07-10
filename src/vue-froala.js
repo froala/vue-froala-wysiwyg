@@ -1,27 +1,28 @@
 import FroalaEditor from 'froala-editor';
-export default (Vue, Options = {}) => {
+import {h} from "vue";
+export default (app, Options = {}) => {
 
   var froalaEditorFunctionality = {
 
-    props: ['tag', 'value', 'config', 'onManualControllerReady'],
+    props: ['tag', 'modelValue', 'config', 'onManualControllerReady'],
 
     watch: {
-      value: function () {
-        this.model = this.value;
+      modelValue: function () {
+        this.model = this.modelValue;
         this.updateValue();
       }
     },
 
-    render: function (createElement) {
-      return createElement(
-        this.currentTag,
-        [this.$slots.default]
+    render: function () {
+      return h(
+          this.currentTag,
+          [this.$slots.default]
       )
     },
 
     created: function () {
       this.currentTag = this.tag || this.currentTag;
-      this.model = this.value;
+      this.model = this.modelValue;
     },
 
     // After first time render.
@@ -103,7 +104,7 @@ export default (Vue, Options = {}) => {
 
       },
 
-       // Return clone object 
+       // Return clone object
       clone(item) {
         const me = this;
         if (!item) {
@@ -272,7 +273,7 @@ export default (Vue, Options = {}) => {
         }
 
         this.oldModel = modelContent;
-        this.$emit('input', modelContent);
+        this.$emit('update:modelValue', modelContent);
       },
 
       initListeners: function() {
@@ -355,7 +356,7 @@ export default (Vue, Options = {}) => {
     }
   };
 
-  Vue.component('Froala', froalaEditorFunctionality);
+  app.component('Froala', froalaEditorFunctionality);
 
   var froalaViewFunctionality = {
 
@@ -371,12 +372,12 @@ export default (Vue, Options = {}) => {
       this.currentTag = this.tag || this.currentTag;
     },
 
-    render: function (createElement) {
-      return createElement(
-        this.currentTag,
-        {
-          class: 'fr-view'
-        }
+    render: function () {
+      return h(
+          this.currentTag,
+          {
+            class: 'fr-view'
+          }
       )
     },
 
@@ -384,8 +385,8 @@ export default (Vue, Options = {}) => {
     mounted: function() {
       this._element = this.$el;
 
-      if (this.value) {
-         this._element.innerHTML = this.value
+      if (this.modelValue) {
+         this._element.innerHTML = this.modelValue
       }
     },
 
@@ -398,5 +399,5 @@ export default (Vue, Options = {}) => {
     }
   };
 
-  Vue.component('FroalaView', froalaViewFunctionality);
+  app.component('FroalaView', froalaViewFunctionality);
 }
