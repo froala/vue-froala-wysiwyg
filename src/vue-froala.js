@@ -279,7 +279,7 @@ export default (App, Options = {}) => {
           }
         }
 
-        if ( this._editor.codeView.isActive() ) {
+        if ( this._editor.codeView && this._editor.codeView.isActive() ) {
           modelContent = this._editor.codeView.get();
         }
 
