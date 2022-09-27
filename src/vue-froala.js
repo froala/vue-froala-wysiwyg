@@ -1,19 +1,20 @@
 import FroalaEditor from 'froala-editor';
-export default (Vue, Options = {}) => {
+import { h } from 'vue';
+export default (app, Options = {}) => {
 
   var froalaEditorFunctionality = {
 
-    props: ['tag', 'value', 'config', 'onManualControllerReady'],
+    props: ['tag', 'modelValue', 'config', 'onManualControllerReady'],
 
     watch: {
-      value: function () {
-        this.model = this.value;
+      modelValue: function () {
+        this.model = this.modelValue;
         this.updateValue();
       }
     },
 
-    render: function (createElement) {
-      return createElement(
+    render: function () {
+      return h(
         this.currentTag,
         [this.$slots.default]
       )
@@ -21,7 +22,7 @@ export default (Vue, Options = {}) => {
 
     created: function () {
       this.currentTag = this.tag || this.currentTag;
-      this.model = this.value;
+      this.model = this.modelValue;
     },
 
     // After first time render.
@@ -97,13 +98,14 @@ export default (Vue, Options = {}) => {
         this.registerEvents();
         this.initListeners();
 
-        this._editor = new FroalaEditor(this.$el, this.currentConfig)
+        this._editor = new FroalaEditor(this.$el, this.currentConfig);
+        this._interval = null;
 
         this.editorInitialized = true;
 
       },
 
-       // Return clone object 
+       // Return clone object
       clone(item) {
         const me = this;
         if (!item) {
@@ -223,6 +225,9 @@ export default (Vue, Options = {}) => {
           this._editor.destroy();
           this.editorInitialized = false;
           this._editor = null;
+
+          clearInterval(this._interval);
+          this._interval = null;
         }
       },
 
@@ -271,18 +276,39 @@ export default (Vue, Options = {}) => {
           }
         }
 
+        if ( this._editor.codeView.isActive && this._editor.codeView.isActive() ) {
+          modelContent = this._editor.codeView.get();
+        }
+
+        if ( this.oldModel == modelContent ) {
+          return;
+        }
+
         this.oldModel = modelContent;
-        this.$emit('input', modelContent);
+        this.$emit('update:modelValue', modelContent);
       },
 
       initListeners: function() {
         var self = this;
-
         this.registerEvent('initialized', function () {
           if (self._editor.events) {
             // bind contentChange and keyup event to froalaModel
             self._editor.events.on('contentChanged', function () {
               self.updateModel();
+            });
+
+            self._editor.events.on('commands.after', function () {
+
+              let callback = function () {
+                self.updateModel();
+              }
+              if ( self._editor.codeView.isActive() ) {
+                self._interval = setInterval(callback, 900);
+              }
+            });
+
+            self._editor.events.on('codeView.update', function () {
+              clearInterval(self._interval);
             });
 
             if (self.currentConfig.immediateVueModelUpdate) {
@@ -355,7 +381,7 @@ export default (Vue, Options = {}) => {
     }
   };
 
-  Vue.component('Froala', froalaEditorFunctionality);
+  app.component('Froala', froalaEditorFunctionality);
 
   var froalaViewFunctionality = {
 
@@ -371,8 +397,8 @@ export default (Vue, Options = {}) => {
       this.currentTag = this.tag || this.currentTag;
     },
 
-    render: function (createElement) {
-      return createElement(
+    render: function () {
+      return h(
         this.currentTag,
         {
           class: 'fr-view'
@@ -384,8 +410,8 @@ export default (Vue, Options = {}) => {
     mounted: function() {
       this._element = this.$el;
 
-      if (this.value) {
-         this._element.innerHTML = this.value
+      if (this.modelValue) {
+         this._element.innerHTML = this.modelValue
       }
     },
 
@@ -398,5 +424,5 @@ export default (Vue, Options = {}) => {
     }
   };
 
-  Vue.component('FroalaView', froalaViewFunctionality);
+  app.component('FroalaView', froalaViewFunctionality);
 }

@@ -1,27 +1,12 @@
-# Vue JS Froala WYSIWYG Editor
-
-[![npm](https://img.shields.io/npm/v/vue-froala-wysiwyg.svg)](https://www.npmjs.com/package/vue-froala-wysiwyg)
-[![npm](https://img.shields.io/npm/dm/vue-froala-wysiwyg.svg)](https://www.npmjs.com/package/vue-froala-wysiwyg)
-[![npm](https://img.shields.io/npm/l/vue-froala-wysiwyg.svg)](https://www.npmjs.com/package/vue-froala-wysiwyg)
-
->vue-froala-wyswiyg provides Vue bindings to the Froala WYSIWYG editor VERSION 3.
-
-## Compatibility
-
-- v1 later `@legacy`
-  - Vue.js 1.x
-- v2 later
-  - Vue.js 2.x
+# Vue3 Froala WYSIWYG Editor
 
 ## Installation
 
-Install `vue-froala-wysiwyg` from `npm`
+Install `vue3-froala-wysiwyg` from `npm`
 
 ```bash
-npm install vue-froala-wysiwyg --save
+npm install vue3-froala-wysiwyg --save
 ```
-
-
 
 ## Integration
 
@@ -40,14 +25,13 @@ import 'froala-editor/js/third_party/image_tui.min';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 
 // Import and use Vue Froala lib.
-import VueFroala from 'vue-froala-wysiwyg'
-Vue.use(VueFroala)
-Vue.config.productionTip = false
+import VueFroala from 'vue3-froala-wysiwyg';
 
-new Vue({
-  render: h => h(App),
-  
-}).$mount('#app')
+const app = createApp({
+  render: () => h(App)
+});
+app.use(VueFroala);
+app.mount('#app');
 
 ```
 
@@ -60,7 +44,7 @@ new Vue({
 </template>
 
 <script>
-import VueFroala from 'vue-froala-wysiwyg';
+import VueFroala from 'vue3-froala-wysiwyg';
 
 export default {
   name: 'app',
