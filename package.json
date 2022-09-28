@@ -6,7 +6,7 @@
   "license": "https://froala.com/wysiwyg-editor/terms/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/froala/vue-froala-wysiwyg.git"
+    "url": "https://github.com/williamsun1993/vue3-froala-wysiwyg"
   },
   "bugs": {
     "url": "https://github.com/froala/vue-froala-wysiwyg/issues"
