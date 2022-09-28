@@ -1,7 +1,7 @@
 {
-  "name": "vue-froala-wysiwyg",
+  "name": "vue3-froala-wysiwyg",
   "version": "4.0.14",
-  "description": "Vue plugin for Froala WYSIWYG HTML rich text editor.",
+  "description": "Vue3 plugin for Froala WYSIWYG HTML rich text editor.",
   "author": "Froala Labs (https://www.froala.com/)",
   "license": "https://froala.com/wysiwyg-editor/terms/",
   "repository": {
