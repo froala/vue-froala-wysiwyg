@@ -2,10 +2,10 @@
 
 ## Installation
 
-Install `vue3-froala-wysiwyg` from `npm`
+Install `froala-wysiwyg-vue3` from `npm`
 
 ```bash
-npm install vue3-froala-wysiwyg --save
+npm install froala-wysiwyg-vue3 --save
 ```
 
 ## Integration
@@ -25,7 +25,7 @@ import 'froala-editor/js/third_party/image_tui.min';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 
 // Import and use Vue Froala lib.
-import VueFroala from 'vue3-froala-wysiwyg';
+import VueFroala from 'froala-wysiwyg-vue3';
 
 const app = createApp({
   render: () => h(App)
@@ -36,7 +36,7 @@ app.mount('#app');
 ```
 
 #### App.vue file:
-```javascript
+```html
 <template>
   <div id="app">
     <froala id="edit" :tag="'textarea'" :config="config" v-model="model"></froala>
@@ -44,7 +44,7 @@ app.mount('#app');
 </template>
 
 <script>
-import VueFroala from 'vue3-froala-wysiwyg';
+import VueFroala from 'froala-wysiwyg-vue3';
 
 export default {
   name: 'app',
@@ -95,14 +95,14 @@ module.exports = {
       css: 'vue-style-loader!css-loader'
     }
   }
-})
+}
 ```
 
 ## Usage
 
 ### Initialize
 
-```javascript
+```html
 // If model is initialized, 'Init text' text child will be overwritten.
 <froala :tag="'textarea'" :config="config" v-model="model">Init text</froala>
 ```
@@ -138,8 +138,8 @@ Events can be passed in with the options, with a key events and object where the
 ```javascript
 config: {
   placeholder: "Edit Me",
-  events : {
-    focus : function(e, editor) {
+  events: {
+    focus: (e, editor) => {
       console.log(editor.selection.get());
     }
   }
@@ -158,14 +158,14 @@ The WYSIWYG HTML editor content model. Two way binding is suported.
 
 Use the content in other places:
 
-```javascript
+```html
 <input v-model="model"/>
 ```
 
 ### Special tags
 You can also use the editor on **img**, **button**, **input** and **a** tags:
 
-```javascript
+```html
 <froala :tag="img" v-model="imgModel"></froala>
 ```
 
@@ -201,7 +201,7 @@ config: {
 
 You can pass the custom buttons to the editor by following way:
 #### App.vue file:
-```javascript
+```html
 <script>
 import FroalaEditor from 'froala-editor';
 
@@ -278,7 +278,7 @@ The object received by the function will contain the following methods:
 
 To display content created with the froala editor use the `froalaView` component.
 
-```javascript
+```html
 <froala v-model="content"></froala>
 
 <froalaView v-model="content"></froalaView>

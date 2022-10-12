@@ -1,5 +1,5 @@
 {
-  "name": "vue3-froala-wysiwyg",
+  "name": "froala-wysiwyg-vue3",
   "version": "4.0.14",
   "description": "Vue3 plugin for Froala WYSIWYG HTML rich text editor.",
   "author": "Froala Labs (https://www.froala.com/)",
@@ -9,7 +9,7 @@
     "url": "https://github.com/williamsun1993/vue3-froala-wysiwyg"
   },
   "bugs": {
-    "url": "https://github.com/froala/vue-froala-wysiwyg/issues"
+    "url": "https://github.com/williamsun1993/vue3-froala-wysiwyg/issues"
   },
   "keywords": [
     "vue",
