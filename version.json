@@ -1,6 +1,6 @@
 {
         "comment": " Please update this file for any new branch with core libary name - package name and version uploaded to nexus",
-        "name": "froala-editor",
+        "name": "froala-editor-devops",
         "version": "4.0.6",
         "comment-2": "Please specify the maximum allowed deployments per environment",
         "dev": "1",
