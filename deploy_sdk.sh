@@ -8,7 +8,7 @@ export DEPLOYMENT_SERVER=""
 SERVICE_NAME=""
 CONTAINER_NAME=""
 CT_INDEX=0
-AO_IDENTIFIER=`echo ${TRAVIS_BRANCH}
+AO_IDENTIFIER=`echo ${TRAVIS_BRANCH}`
 echo "${AO_IDENTIFIER}"
 OLDEST_CONTAINER=""
 echo "${SSH_KEY}"  | base64 --decode > /tmp/sshkey.pem
@@ -116,13 +116,13 @@ function deploy_service(){
 	sleep 10 && ssh -o "StrictHostKeyChecking no" -i  /tmp/sshkey.pem ${SSH_USER}@${DEPLOYMENT_SERVER} " sudo docker ps -a | grep -i ${SERVICE_NAME}" 
 	echo "Docker-compose is in : /services/${SERVICE_NAME} "
 	sleep 30
-	RET_CODE=`curl -k -s -o /tmp/notimportant.txt -w "%{http_code}" https://${DEPLOYMENT_URL}/demo/index.html`
-	echo "validation code: $RET_CODE for  https://${DEPLOYMENT_URL}/demo/index.html"
+	RET_CODE=`curl -k -s -o /tmp/notimportant.txt -w "%{http_code}" https://${DEPLOYMENT_URL}`
+	echo "validation code: $RET_CODE for  https://${DEPLOYMENT_URL}"
 	if [ $RET_CODE -ne 200 ]; then 
 		echo "Deployment validation failed!!! Please check pipeline logs." 
 		exit -1 
 	else 
-		echo " Service available at URL: https://${DEPLOYMENT_URL}/demo/index.html"
+		echo " Service available at URL: https://${DEPLOYMENT_URL}"
 
 	fi
 }  

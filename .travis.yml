@@ -4,48 +4,30 @@ git:
 language: generic
 dist: bionic 
 sudo: required
-# deploy on specific branches
-#  inconsistent results ; we'll validate with a script  
-branches:
-  only:
+only:
     - /dev*/
     - /AO-dev*/
     - /QA*/
     - /QE*/
     - /RC*/
     - /Release-Master*/
-
 env:
 - SHORT_COMMIT= `git rev-parse --short=7 ${TRAVIS_COMMIT}`
 
 before_install:
-#see some envs
   - echo $TRAVIS_BRANCH
   - echo $PWD
   - echo $TRAVIS_COMMIT
   - echo $BUILD_REPO_NAME
 jobs:
   include:
-#  - name: validate-branch  #not working as expected
-#    script:
-#      - chmod u+x validate_branch_name.sh && bash validate_branch_name.sh
-#  - name: dev-deployment
-#    if: branch =~ /dev*/
-#    env:
-#      - DEPLOYMENT_SERVER=${FROALA_SRV_DEV} 
-#    if: commit_message =~ /(deploy-yes)/
-    script: 
-#      - chmod u+x validate_branch_name.sh && bash validate_branch_name.sh
+    if: commit_message =~ /(deploy-yes)/
+    script:
       - chmod u+x push-image-to-nexus.sh && bash push-image-to-nexus.sh
       - chmod u+x deploy_sdk.sh && bash deploy_sdk.sh
-       
-
-######################
-
 notifications:
   email:
     recipients:
       - harasunu.narayan@froala.com
-#      - other recipient
-    on_success: always # default: change
-    on_failure: always # default: always
+    on_success: always
+    on_failure: always 
