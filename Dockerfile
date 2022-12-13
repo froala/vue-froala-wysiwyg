@@ -1,5 +1,5 @@
 FROM node:14.17.3
-LABEL maintainer="rizwan@celestialsys.com"
+LABEL maintainer="froala_git_travis_bot@idera.com"
 ARG PackageName
 ARG PackageVersion
 ARG NexusUser
