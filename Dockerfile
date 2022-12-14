@@ -13,4 +13,4 @@ RUN npm install
 RUN npm build
 
 EXPOSE 8080
-ENTRYPOINT npm run dev -- --host 0.0.0.0 --port 8080
+ENTRYPOINT npm run dev -- --port 8080 --host 0.0.0.0
