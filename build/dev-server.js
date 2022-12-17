@@ -61,5 +61,5 @@ module.exports = app.listen(port, function (err) {
     console.log(err)
     return
   }
-  console.log('Listening at http://0.0.0.0:' + port + '\n')
+  console.log('Listening at http://localhost:' + port + '\n')
 })
