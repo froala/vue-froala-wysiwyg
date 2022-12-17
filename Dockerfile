@@ -12,5 +12,5 @@ RUN wget --no-check-certificate --user ${NexusUser}  --password ${NexusPassword}
 RUN npm install
 RUN npm build
 
-EXPOSE 8080
-ENTRYPOINT npm run dev -- --host 0.0.0.0 --port 8080
+EXPOSE 1200
+ENTRYPOINT npm run dev -- --host 0.0.0.0 --port 1200
