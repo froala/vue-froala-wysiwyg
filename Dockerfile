@@ -1,5 +1,5 @@
 FROM node:14.17.3
-LABEL maintainer="froala_git_travis_bot@idera.com"
+LABEL maintainer="rizwan@celestialsys.com"
 ARG PackageName
 ARG PackageVersion
 ARG NexusUser
@@ -12,5 +12,7 @@ RUN wget --no-check-certificate --user ${NexusUser}  --password ${NexusPassword}
 RUN npm install
 RUN npm build
 
+ENV HOST=0.0.0.0
+
 EXPOSE 8080
-ENTRYPOINT npm run dev -- --host 0.0.0.0 --port 8080
+ENTRYPOINT npm run dev
