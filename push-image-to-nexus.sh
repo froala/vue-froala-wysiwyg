@@ -60,8 +60,11 @@ docker login -u ${NEXUS_USER} -p ${NEXUS_USER_PWD} ${NEXUS_CR_TOOLS_URL}
 docker tag  ${DJANGO_IMAGE_NAME}:${SHORT_COMMIT} ${NEXUS_CR_TOOLS_URL}/froala-${DJANGO_IMAGE_NAME}:${PACKAGE_VERSION}
 docker push ${NEXUS_CR_TOOLS_URL}/froala-${DJANGO_IMAGE_NAME}:${PACKAGE_VERSION}
 
-docker build -t  ${FLASK_IMAGE_NAME}:${SHORT_COMMIT} --build-arg PackageName=${PACKAGE_NAME} --build-arg PackageVersion=${PACKAGE_VERSION} --build-arg NexusUser=${NEXUS_USER} --build-arg NexusPassword=${NEXUS_USER_PWD} -f Dockerfile_django .
-sleep 3
+echo "IP address of BUILD agent is: " && hostname -I
+echo "Hostname of BUILD agent is: " && hostname
+docker image prune -f
+DOCKER_BUILDKIT=0 docker build --no-cache -t ${IMAGE_NAME}:${SHORT_COMMIT} --build-arg PackageName=${PACKAGE_NAME} --build-arg PackageVersion=${PACKAGE_VERSION} --build-arg NexusUser=${NEXUS_USER} --build-arg NexusPassword=${NEXUS_USER_PWD} .
+
 docker image ls 
 echo "uploading to FLASK_IMAGE_NAME nexus" ${PACKAGE_NAME}
 
