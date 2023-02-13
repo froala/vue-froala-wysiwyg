@@ -1,8 +1,29 @@
 var path = require('path')
 var webpack = require("webpack")
-var ExtractTextPlugin = require("extract-text-webpack-plugin")
+var MiniCssExtractPlugin = require("mini-css-extract-plugin")
 var projectRoot = path.resolve(__dirname, '../')
-var cssLoader = ExtractTextPlugin.extract('style-loader', 'css-loader')
+
+const cssLoader = [
+  {
+    loader: MiniCssExtractPlugin.loader,
+    options: {
+      hmr: process.env.NODE_ENV === 'development'
+    }
+  },
+  'css-loader'
+]
+
+const sassLoader = [
+  {
+    loader: MiniCssExtractPlugin.loader,
+    options: {
+      hmr: process.env.NODE_ENV === 'development'
+    }
+  },
+  'css-loader',
+  'sass-loader'
+]
+
 
 module.exports = {
   entry: {
@@ -43,7 +64,7 @@ module.exports = {
       },
       {
         test: /\.s[a|c]ss$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader')
+        loader: sassLoader
       }
     ]
   },
