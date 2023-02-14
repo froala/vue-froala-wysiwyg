@@ -3,7 +3,7 @@ var config = require('../config')
 var webpack = require('webpack')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 module.exports = {
   entry: {
     main: './src/main.js',
@@ -18,14 +18,21 @@ module.exports = {
     extensions: ['.js', '.vue'],
     alias: {
       'src': path.resolve(__dirname, '../src'),
-     
+      'vue': '@vue/compat'
     },
     modules: [path.join(__dirname, '../node_modules'),path.join(__dirname,'../node_modules/froala-editor/js')],
   },
   module: {
     rules: [{
         test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: 'vue-loader',
+        options: {
+          compilerOptions: {
+            compatConfig: {
+              MODE: 2
+            }
+          }
+        }
       },
       {
         test: /\.js$/,

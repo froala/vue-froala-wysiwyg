@@ -45,7 +45,14 @@ module.exports = {
     rules: [{
         test: /\.vue$/,
         loader: 'vue-loader',
-        enforce: 'pre'
+        enforce: 'pre',
+        options: {
+          compilerOptions: {
+            compatConfig: {
+              MODE: 2
+            }
+          }
+        }
       },
       {
         test: /\.js$/,
