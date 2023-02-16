@@ -17,8 +17,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue'],
     alias: {
-      'src': path.resolve(__dirname, '../src'),
-      'vue': '@vue/compat'
+      'src': path.resolve(__dirname, '../src')
     },
     modules: [path.join(__dirname, '../node_modules'),path.join(__dirname,'../node_modules/froala-editor/js')],
   },

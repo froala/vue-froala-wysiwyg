@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.7.7",
-    "@vue/compat": "^3.0.0",
     "babel-runtime": "^6.26.0",
     "froala-editor": "^4.0.17",
     "vue": "^3.2.0"
