@@ -4,7 +4,7 @@ import { h, defineComponent } from 'vue';
 export const Froala = defineComponent({
   name: 'froala',
   props: ['tag', 'value', 'config', 'onManualControllerReady', 'modelValue'],
-  emits: ['update:value'],
+  emits: ['update:value', 'manual-controller-ready'],
   watch: {
     value: function () {
       this.model = this.value;
@@ -15,7 +15,7 @@ export const Froala = defineComponent({
   render() {
     return h(
       this.currentTag,
-      [this.$slots.default]
+      [this.$slots.default ? this.$slots.default()[0] : null]
     )
   },
 
@@ -235,12 +235,10 @@ export const Froala = defineComponent({
         destroy: this.destroyEditor,
         getEditor: this.getEditor,
       };
-
       this.onManualControllerReady(controls);
     },
 
     updateModel: function () {
-
       var modelContent = '';
       if (this.hasSpecialTag) {
         var attributeNodes = this.$el.attributes;

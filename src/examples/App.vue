@@ -26,7 +26,11 @@
       <button class="manual" v-on:click="createEditor()" v-if="!showEditor">Initialize Editor</button>
       <button v-on:click="destroyEditor()" v-if="showEditor">Close Editor</button>
       <button v-on:click="deleteAll()" v-if="showEditor">Delete All</button>
-      <froala id="sample5" :onManualControllerReady="initialize" v-model:value="sample3Text">Check out the <a href="https://www.froala.com/wysiwyg-editor">Froala Editor</a></froala>
+      <froala id="sample5" :onManualControllerReady="initialize" v-model:value="sample3Text">
+        <template v-slot>
+          <div>Check out the <a href="https://www.froala.com/wysiwyg-editor">Froala Editor</a></div>
+        </template>
+      </froala>
     </div>
 
     <div class="sample">
@@ -57,7 +61,7 @@
       <button class="manual" v-on:click="linkCreateEditor()" v-if="!linkShowEditor">Initialize Editor</button>
       <button v-on:click="linkDestroyEditor()" v-if="linkShowEditor">Close Editor</button>
       <div>
-        <froala id="sample10" class="blabla" :tag="'a'" :onManualControllerReady="initializeLink" v-model="linkModel">Froala Editor</froala>
+        <froala id="sample10" class="blabla" :tag="'a'" :onManualControllerReady="initializeLink" v-model:value="linkModel">Froala Editor</froala>
       </div>
       <h4>Model Obj:</h4>
       <div>{{linkModel}}</div>
