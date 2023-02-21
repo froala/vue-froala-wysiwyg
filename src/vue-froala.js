@@ -387,9 +387,5 @@ export const FroalaView = defineComponent({
       currentTag: 'div',
       _element: null,
     };
-  },
-  compatConfig: {
-    COMPONENT_V_MODEL: false,
-    RENDER_FUNCTION: false
   }
 })
