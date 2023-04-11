@@ -9,7 +9,7 @@ RUN apt update -y \
 WORKDIR /app/
 COPY . .
 RUN wget --no-check-certificate --user ${NexusUser}  --password ${NexusPassword} https://nexus.tools.froala-infra.com/repository/Froala-npm/${PackageName}/-/${PackageName}-${PackageVersion}.tgz
-RUN npm install
+RUN npm install -f
 RUN npm build
 
 ENV HOST=0.0.0.0
