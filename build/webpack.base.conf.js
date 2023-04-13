@@ -17,7 +17,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue'],
     alias: {
-      'src': path.resolve(__dirname, '../src')
+      'src': path.resolve(__dirname, '../src'),
+      'stream': require.resolve('stream-browserify')
     },
     modules: [path.join(__dirname, '../node_modules'),path.join(__dirname,'../node_modules/froala-editor/js')],
   },
@@ -63,8 +64,9 @@ module.exports = {
   },
   plugins: [
     // make sure to include the plugin!
-    new VueLoaderPlugin()
-  ]
+    new VueLoaderPlugin(),
+  ],
+  
   // vue: {
   //   loaders: utils.cssLoaders()
   // }
