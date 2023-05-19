@@ -1,14 +1,13 @@
-
 <template>
   <div id="app">
     <h1>Vue adapter for the Froala WYSIWYG editor</h1>
     <div class="sample">
       <h2>Sample 1: Inline Edit</h2>
       <froala :config="titleOptions" v-model="myTitle"></froala>
-      <input v-model="myTitle"/>
+      <input v-model="myTitle" />
     </div>
 
-     <div class="sample">
+    <div class="sample">
       <h2>Sample 2: Full Editor</h2>
       <froala v-model="content"></froala>
       <h4>Rendered Content:</h4>
@@ -23,73 +22,119 @@
 
     <div class="sample">
       <h2>Sample 4: Manual Initialization</h2>
-      <button class="manual" v-on:click="createEditor()" v-if="!showEditor">Initialize Editor</button>
-      <button v-on:click="destroyEditor()" v-if="showEditor">Close Editor</button>
+      <button class="manual" v-on:click="createEditor()" v-if="!showEditor">
+        Initialize Editor
+      </button>
+      <button v-on:click="destroyEditor()" v-if="showEditor">
+        Close Editor
+      </button>
       <button v-on:click="deleteAll()" v-if="showEditor">Delete All</button>
-      <froala id="sample5" :onManualControllerReady="initialize" v-model="sample3Text">Check out the <a href="https://www.froala.com/wysiwyg-editor">Froala Editor</a></froala>
+      <froala
+        id="sample5"
+        :onManualControllerReady="initialize"
+        v-model="sample3Text"
+        >Check out the
+        <a href="https://www.froala.com/wysiwyg-editor"
+          >Froala Editor</a
+        ></froala
+      >
     </div>
 
     <div class="sample">
-      <h2>Sample 5: Editor on 'img' tag. Two way binding. Style is ignored (vueIgnoreAttrs) and will not be updated in the model.</h2>
-      <froala id="sample6" :tag="'img'" :config="imageOptions" v-model="imgModel"></froala>
-      <froala id="sample7" :tag="'img'" :config="imageOptions" v-model="imgModel"></froala>
+      <h2>
+        Sample 5: Editor on 'img' tag. Two way binding. Style is ignored
+        (vueIgnoreAttrs) and will not be updated in the model.
+      </h2>
+      <froala
+        id="sample6"
+        :tag="'img'"
+        :config="imageOptions"
+        v-model="imgModel"
+      ></froala>
+      <froala
+        id="sample7"
+        :tag="'img'"
+        :config="imageOptions"
+        v-model="imgModel"
+      ></froala>
       <h4>Model Obj:</h4>
-      <div>{{imgModel}}</div>
+      <div>{{ imgModel }}</div>
     </div>
 
     <div class="sample">
       <h2>Sample 6: Editor on 'button' tag</h2>
       <froala id="sample8" :tag="'button'" v-model="buttonModel"></froala>
       <h4>Model Obj:</h4>
-      <div>{{buttonModel}}</div>
+      <div>{{ buttonModel }}</div>
     </div>
-
 
     <div class="sample">
       <h2>Sample 7: Editor on 'input' tag</h2>
       <froala id="sample9" :tag="'input'" v-model="inputModel"></froala>
       <h4>Model Obj:</h4>
-      <div>{{inputModel}}</div>
+      <div>{{ inputModel }}</div>
     </div>
 
     <div class="sample">
       <h2>Sample 8: Editor on 'a' tag. Manual Initialization</h2>
-      <button class="manual" v-on:click="linkCreateEditor()" v-if="!linkShowEditor">Initialize Editor</button>
-      <button v-on:click="linkDestroyEditor()" v-if="linkShowEditor">Close Editor</button>
+      <button
+        class="manual"
+        v-on:click="linkCreateEditor()"
+        v-if="!linkShowEditor"
+      >
+        Initialize Editor
+      </button>
+      <button v-on:click="linkDestroyEditor()" v-if="linkShowEditor">
+        Close Editor
+      </button>
       <div>
-        <froala id="sample10" class="blabla" :tag="'a'" :onManualControllerReady="initializeLink" v-model="linkModel">Froala Editor</froala>
+        <froala
+          id="sample10"
+          class="blabla"
+          :tag="'a'"
+          :onManualControllerReady="initializeLink"
+          v-model="linkModel"
+          >Froala Editor</froala
+        >
       </div>
       <h4>Model Obj:</h4>
-      <div>{{linkModel}}</div>
+      <div>{{ linkModel }}</div>
     </div>
 
+    <div class="sample">
+      <h2>Sample 9: Editor that can be toggled</h2>
+      <button @click="sample9Shown = !sample9Shown">Toggle Editor</button>
+      <div v-if="sample9Shown">
+        <froala :config="titleOptions" v-model="sample9Model" />
+      </div>
+      <div v-html="sample9Model" />
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app',
-  data () {
+  name: "app",
+  data() {
     return {
-
       // Sample 1
-      myTitle: '',
+      myTitle: "",
       titleOptions: {
-        placeholderText: 'Edit Your Content Here!',
+        placeholderText: "Edit Your Content Here!",
         charCounterCount: false,
         toolbarInline: true,
         events: {
-          'initialized': function() {
-            console.log('initialized', this);
+          initialized: function() {
+            console.log("initialized", this);
           }
         }
       },
 
       // Sample 2
-      content: '<span>My Document\'s Title</span>',
+      content: "<span>My Document's Title</span>",
 
       // Sample 3
-      twoWayContent: '',
+      twoWayContent: "",
 
       // Sample 4
       sample3Text: null,
@@ -104,31 +149,31 @@ export default {
         this.initControls.initialize();
         this.showEditor = true;
       },
-      initialize: (initControls) => {
+      initialize: initControls => {
         this.initControls = initControls;
         this.deleteAll = () => {
-            this.initControls.getEditor().html.set('');
-            this.initControls.getEditor().undo.reset();
-            this.initControls.getEditor().undo.saveStep();
+          this.initControls.getEditor().html.set("");
+          this.initControls.getEditor().undo.reset();
+          this.initControls.getEditor().undo.saveStep();
         };
       },
 
       // Sample 5
       imgModel: {
-        src: require('./image.jpg')
+        src: require("./image.jpg")
       },
       imageOptions: {
-        vueIgnoreAttrs: ['style']
+        vueIgnoreAttrs: ["style"]
       },
 
       // Sample 6
       buttonModel: {
-        innerHTML: 'Click Me'
+        innerHTML: "Click Me"
       },
 
       // Sample 7
       inputModel: {
-        placeholder: 'I am an input!'
+        placeholder: "I am an input!"
       },
 
       // Sample 8
@@ -137,49 +182,48 @@ export default {
       linkCreateEditor: () => {
         this.linkInitControls.initialize();
         this.linkShowEditor = true;
-
       },
       linkDestroyEditor: () => {
         this.linkInitControls.destroy();
         this.linkShowEditor = false;
       },
-      initializeLink: (linkInitControls) => {
+      initializeLink: linkInitControls => {
         this.linkInitControls = linkInitControls;
       },
       linkModel: {
-        href: 'https://www.froala.com/wysiwyg-editor'
-      }
-    }
+        href: "https://www.froala.com/wysiwyg-editor"
+      },
+      sample9Shown: false,
+      sample9Model: null
+    };
   },
-  created() {
-
-  }
-}
+  created() {}
+};
 </script>
 
 <style>
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
-  body {
-      padding: 20px;
-  }
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+body {
+  padding: 20px;
+}
 
-  .sample {
-      padding-bottom: 50px;
-      margin-left: 30px;
-      border-top: 1px solid lightgray;
-  }
+.sample {
+  padding-bottom: 50px;
+  margin-left: 30px;
+  border-top: 1px solid lightgray;
+}
 
-  .manual {
-      margin-bottom: 20px;
-  }
+.manual {
+  margin-bottom: 20px;
+}
 
-  .button {
-    margin-left: 5px;
-  }
+.button {
+  margin-left: 5px;
+}
 </style>
