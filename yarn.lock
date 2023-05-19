@@ -3118,10 +3118,10 @@ fresh@0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-froala-editor@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-4.0.0.tgz#fde6a3645727fc33daffdb376b7d158226974e36"
-  integrity sha512-/nHMuA/MYZnNx0TbrGnGJoiRuRHFN6JKtvfV6So0j3Ijwyj48s8NhU4AAzQx4ge8Jx5JmcHf5jJX4sDcJAU+CQ==
+froala-editor@^4.0.16:
+  version "4.0.16"
+  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-4.0.16.tgz#4ca4eb9e06fcdd09015a8c761e932b0f3d2a7b10"
+  integrity sha512-n1hXfgD/sWCdTVKJW9SPupeW6oQ25TO3hQuDaktdgPszyywe5Vpbxw0k+ffRs5pWSt/aHRiDaQnaxyb9YRA9Sg==
 
 from2@^2.1.0:
   version "2.3.0"
@@ -5341,9 +5341,9 @@ qs@6.7.0:
   integrity sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
 
 qs@~6.5.2:
-  version "6.5.2"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
-  integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
+  version "6.5.3"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.3.tgz#3aeeffc91967ef6e35c0e488ef46fb296ab76aad"
+  integrity sha512-qxXIEh4pCGfHICj1mAJQ2/2XVZkjCDTcEgfoSQxc/fYivUZxTkk7L3bDBJSoNrEzXI17oUO5Dp07ktqE5KzczA==
 
 querystring-es3@^0.2.0:
   version "0.2.1"
