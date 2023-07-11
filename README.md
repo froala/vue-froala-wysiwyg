@@ -8,10 +8,8 @@
 
 ## Compatibility
 
-- v1 later `@legacy`
-  - Vue.js 1.x
-- v2 later
-  - Vue.js 2.x
+- v3 later
+  - Vue.js 3.x
 
 ## Installation
 
@@ -38,32 +36,30 @@ import 'froala-editor/js/third_party/spell_checker.min';
 import 'froala-editor/js/third_party/image_tui.min';
 // Import Froala Editor css files.
 import 'froala-editor/css/froala_editor.pkgd.min.css';
+import 'froala-editor/css/froala_style.min.css';
 
-// Import and use Vue Froala lib.
-import VueFroala from 'vue-froala-wysiwyg'
-Vue.use(VueFroala)
-Vue.config.productionTip = false
+import App from './App'
+import { createApp } from 'vue'
+import VueFroala from 'vue-froala-wysiwyg';
 
-new Vue({
-  render: h => h(App),
-  
-}).$mount('#app')
+const app = createApp(App);          
 
+app.use(VueFroala);
+app.mount('#app');
 ```
 
 #### App.vue file:
 ```javascript
 <template>
   <div id="app">
-    <froala id="edit" :tag="'textarea'" :config="config" v-model="model"></froala>
+    <froala id="edit" :tag="'textarea'" :config="config" v-model:value="model"></froala>
   </div>
 </template>
 
 <script>
-import VueFroala from 'vue-froala-wysiwyg';
 
 export default {
-  name: 'app',
+  name: 'App',
   data () {
     return {
       config: {
@@ -97,7 +93,7 @@ module.exports = {
       // Css loader.
       {
         test: /\.css$/,
-        loader: 'vue-style-loader!css-loader'
+        loader: 'cssLoader'
       }
 
     ]
@@ -108,7 +104,7 @@ module.exports = {
       // ...
 
       // Css loader for Webpack 1.x .
-      css: 'vue-style-loader!css-loader'
+      css: 'cssLoader'
     }
   }
 })
@@ -120,7 +116,7 @@ module.exports = {
 
 ```javascript
 // If model is initialized, 'Init text' text child will be overwritten.
-<froala :tag="'textarea'" :config="config" v-model="model">Init text</froala>
+<froala :tag="'textarea'" :config="config" v-model:value="model">Init text</froala>
 ```
 
 **:tag** attr is used to tell on which tag the editor is initialized.
@@ -170,19 +166,19 @@ Froala events are described in the [events docs](https://froala.com/wysiwyg-edit
 
 The WYSIWYG HTML editor content model. Two way binding is suported.
 
-`v-model="model"`
+`v-model:value="model"`
 
 Use the content in other places:
 
 ```javascript
-<input v-model="model"/>
+<input v-model:value="model"/>
 ```
 
 ### Special tags
 You can also use the editor on **img**, **button**, **input** and **a** tags:
 
 ```javascript
-<froala :tag="img" v-model="imgModel"></froala>
+<froala :tag="img" v-model:value="imgModel"></froala>
 ```
 
 The model must be an object containing the attributes for your special tags. Example:
@@ -295,9 +291,9 @@ The object received by the function will contain the following methods:
 To display content created with the froala editor use the `froalaView` component.
 
 ```javascript
-<froala v-model="content"></froala>
+<froala v-model:value="content"></froala>
 
-<froalaView v-model="content"></froalaView>
+<froalaView v-model:value="content"></froalaView>
 ```
 
 
