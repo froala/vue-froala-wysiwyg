@@ -1,0 +1,85 @@
+name: Auto Release – vue
+ 
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+ 
+permissions:
+  contents: write
+ 
+jobs:
+  release:
+    # Run only when PR is merged
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Validate release intent
+        id: intent
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const body = context.payload.pull_request.body || '';
+            const title = context.payload.pull_request.title || '';
+            const text = `${title}\n${body}`;
+ 
+            core.setOutput(
+              'release',
+              /release:\s*yes/i.test(text) ? 'true' : 'false'
+            );
+ 
+      - name: Stop if not a release PR
+        if: steps.intent.outputs.release == 'false'
+        run: |
+          echo "Not a release PR. Skipping auto-release."
+          exit 0
+ 
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT }}
+          fetch-depth: 0
+ 
+
+      - name: Read version from package.json
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+      
+          if [ -z "$VERSION" ] || [ "$VERSION" = "null" ]; then
+            echo "Failed to determine version from package.json"
+            exit 1
+          fi
+      
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "Invalid version format: $VERSION"
+            exit 1
+          fi
+      
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Releasing version $VERSION"
+     
+
+      - name: Prepare release notes
+        run: |
+          PR_BODY="${{ github.event.pull_request.body }}"
+ 
+          CLEAN_NOTES=$(echo "$PR_BODY" | sed \
+            -e '/^release:\s*/Id' \
+            -e '/^## Release Notes.*$/Id')
+ 
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+          echo "$CLEAN_NOTES" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+ 
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        run: |
+          gh release create "v${VERSION}" \
+            --title "Release ${VERSION}" \
+            --notes "$RELEASE_NOTES" \
+            --latest
