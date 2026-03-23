@@ -1,0 +1,104 @@
+name: Sync Version – vue SDK
+
+on:
+ repository_dispatch:
+   types: [version_update]
+   
+permissions:
+  contents: write
+ 
+jobs:
+  release:
+    runs-on: ubuntu-latest
+   
+    steps:
+     - name: Checkout repository
+       uses: actions/checkout@v4
+       with:
+         token: ${{ secrets.PAT }}
+         
+     - name: Load version
+       run: |
+         VERSION="${{ github.event.client_payload.version }}"
+         
+         if [ -z "$VERSION" ]; then
+           echo "Version is missing"
+           exit 1
+         fi
+         
+         if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+           echo "Invalid version format: $VERSION"
+           exit 1
+         fi
+         
+         echo "VERSION=$VERSION" >> $GITHUB_ENV
+         echo "Using version $VERSION"
+         
+     - name: Compare current version
+       run: |
+         CURRENT_VERSION=$(jq -r '.version' package.json)
+         
+          if [ -z "$CURRENT_VERSION" ] || [ "$CURRENT_VERSION" = "null" ]; then
+            echo "Could not read the current version from package.json"
+            exit 1
+          fi
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "Incoming version: $VERSION"
+
+          if [ "$CURRENT_VERSION" = "$VERSION" ]; then
+            echo "The version is already up to date. No changes needed."
+            exit 0
+          fi
+
+          echo "New version detected. Continuing with release process."
+         
+     - name: Prepare release branch
+       run: |
+         BRANCH="release-v${VERSION}"
+         echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+         
+         git fetch origin
+         
+         if git ls-remote --heads origin "$BRANCH" | grep -q "$BRANCH"; then
+           git checkout "$BRANCH"
+           git pull origin "$BRANCH"
+         else
+           git checkout -b "$BRANCH"
+         fi
+         
+     - name: Update package.json
+       run: |
+         jq --arg VERSION "$VERSION" '.version = $VERSION | .dependencies["froala-editor"] = $VERSION' package.json > tmp.json
+         mv tmp.json package.json
+         
+     - name: Commit changes
+       run: |
+         git config user.name "froala-travis-bot"
+         git config user.email "froala_git_travis_bot@idera.com"
+         git add package.json
+         git commit -m "update package.json to v${VERSION}" || echo "Nothing to commit"
+         git push origin "$BRANCH"
+         
+     - name: Create Pull Request
+       env:
+          GH_TOKEN: ${{ secrets.PAT }}
+          RELEASE_NOTES: ${{ github.event.client_payload.release_notes }}
+       run: |
+          git fetch origin master
+
+          if git diff --quiet origin/master..."$BRANCH"; then
+            echo "No commits between $BRANCH and master. Skipping PR creation."
+            exit 0
+          fi
+
+          PR_BODY=$(printf \
+            "release: yes\n\n## Release Notes (from primary repo)\n\n%s\n" \
+            "$RELEASE_NOTES")
+
+          gh pr create \
+            --base master \
+            --head "$BRANCH" \
+            --title "Release v${VERSION}" \
+            --body "$PR_BODY" \
+            || echo "Pull request already exists"
