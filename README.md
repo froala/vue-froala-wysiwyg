@@ -13,8 +13,9 @@
 4. [Usage](#usage)
 5. [Manual Instantiation](#manual-instantiation)
 6. [Displaying HTML](#displaying-html)
-7. [License](#license)
-8. [Development environment setup](#development-environment-setup)
+7. [Nuxt and server-side rendering](#nuxt-and-server-side-rendering)
+8. [License](#license)
+9. [Development environment setup](#development-environment-setup)
 
 ## Installation
 
@@ -324,6 +325,54 @@ To display content created with the froala editor use the `froalaView` component
 
 <froalaView :value="content"></froalaView>
 ```
+
+## Nuxt and server-side rendering
+
+The editor needs a browser, so register it in the browser only and render it on the client.
+
+In Nuxt, register the plugin in a client-only plugin, `app/plugins/froala.client.ts`:
+
+```typescript
+// Import all Froala Editor plugins.
+import 'froala-editor/js/plugins.pkgd.min.js';
+
+// Import Froala Editor css files.
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+import 'froala-editor/css/froala_style.min.css';
+
+import * as VueFroalaModule from 'vue-froala-wysiwyg';
+const VueFroala = VueFroalaModule.default?.default ?? VueFroalaModule.default;
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.use(VueFroala);
+});
+```
+
+The import uses the same form as the [Vite 8 note](#vite-8-the-npm-create-vue-default), which works whichever way the package resolves.
+
+Then wrap the components in `<ClientOnly>`. Both `froala` and `froalaView` are only registered in the browser, so leaving either outside `<ClientOnly>` causes a hydration mismatch:
+
+```vue
+<template>
+  <ClientOnly>
+    <froala :tag="'textarea'" :config="config" v-model:value="model"></froala>
+    <froalaView :value="model"></froalaView>
+    <template #fallback>
+      <p>Loading editor…</p>
+    </template>
+  </ClientOnly>
+</template>
+
+<script setup>
+const config = {
+  placeholderText: 'Edit Your Content Here!'
+};
+
+const model = ref('<p>Hello from Nuxt</p>');
+</script>
+```
+
+Register custom buttons, icons and languages in the same client-only plugin, so they only run in the browser. In a TypeScript project, add the declaration file from [TypeScript](#typescript) too.
 
 ## License
 
