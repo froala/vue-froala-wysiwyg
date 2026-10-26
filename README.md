@@ -29,7 +29,7 @@ This also installs the matching version of `froala-editor`, which `vue-froala-wy
 
 ## Update editor version
 
-`vue-froala-wysiwyg` pins the exact `froala-editor` version it was built and tested against, so update the wrapper to get a newer editor:
+`vue-froala-wysiwyg` pins the exact `froala-editor` version it was built and tested against. It's an exact version, not a range, so `npm update` won't move it. Update the wrapper to get a newer editor:
 
 ```bash
 npm install vue-froala-wysiwyg@latest
@@ -43,11 +43,15 @@ npm install vue-froala-wysiwyg@latest
 // Import all Froala Editor plugins.
 import 'froala-editor/js/plugins.pkgd.min.js';
 
-// Import third-party plugins if you need them.
-// import 'froala-editor/js/third_party/embedly.min';
-// import 'froala-editor/js/third_party/font_awesome.min';
-// import 'froala-editor/js/third_party/spell_checker.min';
-// import 'froala-editor/js/third_party/image_tui.min';
+// Import third-party plugins if you need them, with their stylesheets.
+// import 'froala-editor/js/third_party/embedly.min.js';
+// import 'froala-editor/css/third_party/embedly.min.css';
+// import 'froala-editor/js/third_party/font_awesome.min.js';
+// import 'froala-editor/css/third_party/font_awesome.min.css';
+// import 'froala-editor/js/third_party/spell_checker.min.js';
+// import 'froala-editor/css/third_party/spell_checker.min.css';
+// import 'froala-editor/js/third_party/image_tui.min.js';
+// import 'froala-editor/css/third_party/image_tui.min.css';
 
 // Import Froala Editor css files.
 import 'froala-editor/css/froala_editor.pkgd.min.css';
@@ -55,7 +59,11 @@ import 'froala-editor/css/froala_style.min.css';
 
 import App from './App.vue'
 import { createApp } from 'vue'
-import VueFroala from 'vue-froala-wysiwyg';
+
+// `es/index.js` is published as CommonJS, so the default export may arrive
+// wrapped. This form works whichever way the bundler resolves the package.
+import * as VueFroalaModule from 'vue-froala-wysiwyg';
+const VueFroala = VueFroalaModule.default?.default ?? VueFroalaModule.default;
 
 const app = createApp(App);
 
@@ -89,12 +97,7 @@ const model = ref('Edit Your Content Here!');
 
 #### Vite 8 (the `npm create vue` default)
 
-In a Vite 8 project whose `package.json` has `"type": "module"`, the default import above doesn't return the plugin. `app.use()` warns that "a plugin must either be a function or an object with an install function", `<froala>` isn't registered and the page renders blank. Until this is fixed in the package, import it like this instead:
-
-```javascript
-import * as VueFroalaModule from 'vue-froala-wysiwyg';
-const VueFroala = VueFroalaModule.default?.default ?? VueFroalaModule.default;
-```
+In a Vite 8 project whose `package.json` has `"type": "module"`, a plain default import (`import VueFroala from 'vue-froala-wysiwyg'`) doesn't return the plugin — it returns the module namespace with the plugin one level deeper. In dev, `app.use()` warns that "a plugin must either be a function or an object with an install function", `<froala>` isn't registered and the page renders blank. In a production build there is no warning at all, only the blank page. Until this is fixed in the package, import it like the entry file above does.
 
 #### TypeScript
 
@@ -118,7 +121,7 @@ const config = {
 };
 ```
 
-and the controls in [Manual Instantiation](#manual-instantiation), for example `let initControls: any = null;` and `function initialize(controls: any)`.
+and the controls in [Manual Instantiation](#manual-instantiation), for example `const initControls = shallowRef<any>(null);` and `function initialize(controls: any)`.
 
 ## Usage
 
@@ -143,6 +146,7 @@ You can pass any existing Froala option. Consult the [Froala documentation](http
 
 ```javascript
 const config = {
+  key: 'YOUR_FROALA_LICENSE_KEY',
   placeholderText: 'Edit Your Content Here!',
   charCounterCount: false
 };
@@ -295,14 +299,16 @@ Gets the functionality to operate on the editor: create, destroy and get editor 
 </template>
 
 <script setup>
-let initControls = null;
+import { shallowRef } from 'vue';
+
+const initControls = shallowRef(null);
 
 function initialize(controls) {
-  initControls = controls;
+  initControls.value = controls;
 }
 
 function deleteAll() {
-  const editor = initControls.getEditor();
+  const editor = initControls.value.getEditor();
   editor.html.set('');
   editor.undo.reset();
   editor.undo.saveStep();
@@ -314,7 +320,7 @@ The object received by the function will contain the following methods:
 
 - **initialize**: Call this method to initialize the Froala Editor
 - **destroy**: Call this method to destroy the Froala Editor
-- **getEditor**: Call this method to retrieve the editor that was created. There is no editor instance to return until `initialize` has been called
+- **getEditor**: Call this method to retrieve the editor that was created. Returns `null` until `initialize` has been called
 
 ## Displaying HTML
 
@@ -330,7 +336,7 @@ To display content created with the froala editor use the `froalaView` component
 
 The editor needs a browser, so register it in the browser only and render it on the client.
 
-In Nuxt, register the plugin in a client-only plugin, `app/plugins/froala.client.ts`:
+In Nuxt, register the plugin in a client-only plugin — `app/plugins/froala.client.ts` on Nuxt 4, or `plugins/froala.client.ts` on Nuxt 3:
 
 ```typescript
 // Import all Froala Editor plugins.
@@ -348,9 +354,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 });
 ```
 
-The import uses the same form as the [Vite 8 note](#vite-8-the-npm-create-vue-default), which works whichever way the package resolves.
+The import uses the same form as the [entry file](#integration), which works whichever way the package resolves (see the [Vite 8 note](#vite-8-the-npm-create-vue-default)).
 
-Then wrap the components in `<ClientOnly>`. Both `froala` and `froalaView` are only registered in the browser, so leaving either outside `<ClientOnly>` causes a hydration mismatch:
+Then wrap the components in `<ClientOnly>`. Both `froala` and `froalaView` are only registered in the browser, so leaving either outside `<ClientOnly>` makes SSR fail to resolve it (`[Vue warn]: Failed to resolve component: froalaView`) and then produces a hydration mismatch:
 
 ```vue
 <template>
@@ -387,19 +393,22 @@ If you want to contribute to vue-froala-wysiwyg, you will first need to install 
 
 #### Prerequisites
 
-* [Node Package Manager](https://www.npmjs.com/) (NPM)
+* [Node.js](https://nodejs.org/) — tested on 22.x and 24.x
+* [Yarn](https://yarnpkg.com/) — the `build` and `release` scripts invoke it directly
 * [Git](https://git-scm.com/)
 
 #### Install dependencies
 
-    $ npm install
+    $ npm install --ignore-scripts
+
+> Plain `npm install` fails: its `prepublish` script runs the webpack 4 build, which errors with `ERR_OSSL_EVP_UNSUPPORTED` on Node 17 and later.
 
 #### Build
 
-    $ npm run build
+    $ NODE_OPTIONS=--openssl-legacy-provider npm run build
 
 #### Run Demo
 
-    $ npm run dev
+    $ NODE_OPTIONS=--openssl-legacy-provider npm run dev
 
 The demo is served at http://localhost:8080.
