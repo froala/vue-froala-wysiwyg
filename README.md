@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/dm/vue-froala-wysiwyg.svg)](https://www.npmjs.com/package/vue-froala-wysiwyg)
 [![npm](https://img.shields.io/npm/l/vue-froala-wysiwyg.svg)](https://www.npmjs.com/package/vue-froala-wysiwyg)
 
->vue-froala-wysiwyg provides Vue 3 bindings to the Froala WYSIWYG editor.
+> vue-froala-wysiwyg provides Vue 3 bindings to the Froala WYSIWYG editor.
 
 ## Table of contents
 1. [Installation](#installation)
@@ -19,7 +19,7 @@
 
 ## Installation
 
-Install `vue-froala-wysiwyg` from `npm`
+Install `vue-froala-wysiwyg` from `npm`:
 
 ```bash
 npm install vue-froala-wysiwyg
@@ -29,7 +29,7 @@ This also installs the matching version of `froala-editor`, which `vue-froala-wy
 
 ## Update editor version
 
-`vue-froala-wysiwyg` pins the exact `froala-editor` version it was built and tested against. It's an exact version, not a range, so `npm update` won't move it. Update the wrapper to get a newer editor:
+`vue-froala-wysiwyg` pins the exact `froala-editor` version it was built and tested against — an exact version, not a range. So `froala-editor` can't be updated on its own: it only changes when the wrapper does. Update the wrapper to get a newer editor:
 
 ```bash
 npm install vue-froala-wysiwyg@latest
@@ -48,10 +48,12 @@ import 'froala-editor/js/plugins.pkgd.min.js';
 // import 'froala-editor/css/third_party/embedly.min.css';
 // import 'froala-editor/js/third_party/font_awesome.min.js';
 // import 'froala-editor/css/third_party/font_awesome.min.css';
-// The font_awesome plugin also needs Font Awesome itself (npm install font-awesome@4.7.0).
+// font_awesome also needs Font Awesome itself (npm install font-awesome@4.7.0):
 // import 'font-awesome/css/font-awesome.min.css';
+// spell_checker loads WebSpellChecker from its CDN and needs a WProofreader subscription.
 // import 'froala-editor/js/third_party/spell_checker.min.js';
 // import 'froala-editor/css/third_party/spell_checker.min.css';
+// image_tui also needs TUI Image Editor, loaded on window.tui or passed as the tui option.
 // import 'froala-editor/js/third_party/image_tui.min.js';
 // import 'froala-editor/css/third_party/image_tui.min.css';
 
@@ -59,8 +61,8 @@ import 'froala-editor/js/plugins.pkgd.min.js';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/css/froala_style.min.css';
 
-import App from './App.vue'
-import { createApp } from 'vue'
+import App from './App.vue';
+import { createApp } from 'vue';
 
 // `es/index.js` is published as CommonJS, so the default export may arrive
 // wrapped. This form works whichever way the bundler resolves the package.
@@ -73,7 +75,7 @@ app.use(VueFroala);
 app.mount('#app');
 ```
 
-This registers two components, `froala` (the editor) and `froalaView` (for [displaying HTML](#displaying-html)).
+This registers two global components, `Froala` (the editor) and `FroalaView` (for [displaying HTML](#displaying-html)). Use them in templates as `<froala>` and `<froalaView>`, or `<froala-view>` in in-DOM templates.
 
 #### 2. Use the editor in a component, for example `src/App.vue`.
 
@@ -99,7 +101,7 @@ const model = ref('Edit Your Content Here!');
 
 #### Vite 8 (the `npm create vue` default)
 
-In a Vite 8 project whose `package.json` has `"type": "module"`, a plain default import (`import VueFroala from 'vue-froala-wysiwyg'`) doesn't return the plugin — it returns the module namespace with the plugin one level deeper. In dev, `app.use()` warns that "a plugin must either be a function or an object with an install function", `<froala>` isn't registered and the page renders blank. In a production build there is no warning at all, only the blank page. Until this is fixed in the package, import it like the entry file above does.
+In a Vite 8 project whose `package.json` has `"type": "module"`, a plain default import (`import VueFroala from 'vue-froala-wysiwyg'`) doesn't return the plugin — it returns the module namespace with the plugin one level deeper. In dev, `app.use()` warns `A plugin must either be a function or an object with an "install" function.`, `<froala>` isn't registered and the page renders blank. In a production build there is no warning at all, only the blank page. Until this is fixed in the package, import it like the entry file above does.
 
 #### TypeScript
 
@@ -123,7 +125,7 @@ const config = {
 };
 ```
 
-and the controls in [Manual Instantiation](#manual-instantiation), for example `const initControls = shallowRef<any>(null);` and `function initialize(controls: any)`.
+Type the controls in [Manual Instantiation](#manual-instantiation) too, for example `const initControls = shallowRef<any>(null);` and `function initialize(controls: any)`.
 
 ## Usage
 
@@ -134,13 +136,13 @@ and the controls in [Manual Instantiation](#manual-instantiation), for example `
 <froala :tag="'textarea'" :config="config" v-model:value="model">Init text</froala>
 ```
 
-**:tag** attr is used to tell on which tag the editor is initialized (default: `div`).
+`tag` sets the element the editor is created on (default: `div`).
 
 There are special tags: **a**, **button**, **img**, **input**. See [Special tags](#special-tags).
 
 ### Options
 
-You can pass editor options as component attribute (optional).
+You can pass editor options as a component attribute (optional).
 
 `:config="config"`
 
@@ -154,14 +156,14 @@ const config = {
 };
 ```
 
-Additional option is used:
+`key` is your Froala license key. The wrapper adds one option of its own:
 * **immediateVueModelUpdate**: (default: false) This option updates the Vue model as soon as a key is released in the editor. Note that it may affect performance.
 
-`config` is read once, when the editor is created. To apply new options, re-create the editor, for example by changing its `key`.
+`config` is read once, when the editor is created. To apply new options, re-create the component, for example by changing the Vue `:key` attribute on `<froala>` (not the `key` license option).
 
 ### Events and Methods
 
-Events can be passed in with the options, with a key events and object where the key is the event name and the value is the callback function. Inside the callback, `this` is the editor instance, so use a regular `function` rather than an arrow function:
+Pass events in the `events` option, keyed by event name, with the callback as the value. Inside the callback, `this` is the editor instance, so use a regular `function` rather than an arrow function:
 
 ```javascript
 const config = {
@@ -203,6 +205,7 @@ You can also use the editor on **img**, **button**, **input** and **a** tags. Pa
 The model must be an object containing the attributes for your special tags. Example:
 
 ```javascript
+import { ref } from 'vue';
 import imageUrl from './image.jpg';
 
 const imgModel = ref({
@@ -289,7 +292,7 @@ const model = ref('');
 
 ## Manual Instantiation
 
-Gets the functionality to operate on the editor: create, destroy and get editor instance. Use it if you want to manually initialize the editor.
+Gives you control over when the editor is created and destroyed, and access to the editor instance. Use it if you want to initialize the editor manually.
 
 `:onManualControllerReady="initialize"`
 
@@ -310,7 +313,8 @@ function initialize(controls) {
 }
 
 function deleteAll() {
-  const editor = initControls.value.getEditor();
+  const editor = initControls.value?.getEditor();
+  if (!editor) return;
   editor.html.set('');
   editor.undo.reset();
   editor.undo.saveStep();
@@ -326,7 +330,7 @@ The object received by the function will contain the following methods:
 
 ## Displaying HTML
 
-To display content created with the froala editor use the `froalaView` component.
+To display content created with the Froala Editor, use the `froalaView` component.
 
 ```vue
 <froala v-model:value="content"></froala>
@@ -371,7 +375,7 @@ Then wrap the components in `<ClientOnly>`. Both `froala` and `froalaView` are o
   </ClientOnly>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const config = {
   placeholderText: 'Edit Your Content Here!'
 };
@@ -380,7 +384,7 @@ const model = ref('<p>Hello from Nuxt</p>');
 </script>
 ```
 
-Register custom buttons, icons and languages in the same client-only plugin, so they only run in the browser. In a TypeScript project, add the declaration file from [TypeScript](#typescript) too.
+Register custom buttons, icons and languages in the same client-only plugin, so they only run in the browser. Nuxt type-checks with the same `TS7016` error, so add the declaration from [TypeScript](#typescript) as `vue-froala-wysiwyg.d.ts` at the project root, where both Nuxt 3 and Nuxt 4 pick it up.
 
 ## License
 
@@ -396,21 +400,30 @@ If you want to contribute to vue-froala-wysiwyg, you will first need to install 
 #### Prerequisites
 
 * [Node.js](https://nodejs.org/) — tested on 22.x and 24.x
-* [Yarn](https://yarnpkg.com/) — the `build` and `release` scripts invoke it directly
 * [Git](https://git-scm.com/)
+
+The `build` script calls Yarn 1, which is installed locally as a dev dependency, so you don't need it globally.
 
 #### Install dependencies
 
-    $ npm install --ignore-scripts
+```bash
+npm install --ignore-scripts
+```
 
 > Plain `npm install` fails: its `prepublish` script runs the webpack 4 build, which errors with `ERR_OSSL_EVP_UNSUPPORTED` on Node 17 and later.
 
 #### Build
 
-    $ NODE_OPTIONS=--openssl-legacy-provider npm run build
+```bash
+npx cross-env NODE_OPTIONS=--openssl-legacy-provider npm run build
+```
 
 #### Run Demo
 
-    $ NODE_OPTIONS=--openssl-legacy-provider npm run dev
+```bash
+npx cross-env NODE_OPTIONS=--openssl-legacy-provider npm run dev
+```
+
+`cross-env` is one of the project's dev dependencies, so these commands work the same in Bash, PowerShell and cmd.
 
 The demo is served at http://localhost:8080.
