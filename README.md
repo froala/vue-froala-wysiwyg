@@ -48,6 +48,8 @@ import 'froala-editor/js/plugins.pkgd.min.js';
 // import 'froala-editor/css/third_party/embedly.min.css';
 // import 'froala-editor/js/third_party/font_awesome.min.js';
 // import 'froala-editor/css/third_party/font_awesome.min.css';
+// The font_awesome plugin also needs Font Awesome itself (npm install font-awesome@4.7.0).
+// import 'font-awesome/css/font-awesome.min.css';
 // import 'froala-editor/js/third_party/spell_checker.min.js';
 // import 'froala-editor/css/third_party/spell_checker.min.css';
 // import 'froala-editor/js/third_party/image_tui.min.js';
