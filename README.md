@@ -29,7 +29,7 @@ This also installs the matching version of `froala-editor`, which `vue-froala-wy
 
 ## Update editor version
 
-`vue-froala-wysiwyg` pins the exact `froala-editor` version it was built and tested against — an exact version, not a range. So `froala-editor` can't be updated on its own: it only changes when the wrapper does. Update the wrapper to get a newer editor:
+`vue-froala-wysiwyg` pins the exact `froala-editor` version it was built and tested against — an exact version, not a range. So `froala-editor` isn't meant to be updated on its own. Update the wrapper to get a newer editor:
 
 ```bash
 npm install vue-froala-wysiwyg@latest
@@ -50,7 +50,8 @@ import 'froala-editor/js/plugins.pkgd.min.js';
 // import 'froala-editor/css/third_party/font_awesome.min.css';
 // font_awesome also needs Font Awesome itself (npm install font-awesome@4.7.0):
 // import 'font-awesome/css/font-awesome.min.css';
-// spell_checker loads WebSpellChecker from its CDN and needs a WProofreader subscription.
+// spell_checker loads WebSpellChecker from its CDN and needs a WProofreader subscription;
+// pass your customer ID as the scaytCustomerId option.
 // import 'froala-editor/js/third_party/spell_checker.min.js';
 // import 'froala-editor/css/third_party/spell_checker.min.css';
 // image_tui also needs TUI Image Editor, loaded on window.tui or passed as the tui option.
@@ -111,7 +112,7 @@ The package doesn't ship type declarations yet, so a TypeScript build (`vue-tsc`
 declare module 'vue-froala-wysiwyg';
 ```
 
-The examples in this README use plain JavaScript in `<script setup>`. In a TypeScript project, use `<script setup lang="ts">` instead, otherwise `vue-tsc` can't read the component (`TS7016: Could not find a declaration file for module './App.vue'`). With TypeScript, also type `this` in event callbacks:
+The examples in this README use plain JavaScript in `<script setup>`. In a TypeScript project, use `<script setup lang="ts">` instead (and `<script lang="ts">` for the plain block in [Custom Buttons](#custom-buttons), since both blocks must use the same language), otherwise `vue-tsc` can't read the component (`TS7016: Could not find a declaration file for module './App.vue'`). With TypeScript, also type `this` in event callbacks:
 
 ```typescript
 import FroalaEditor from 'froala-editor';
@@ -237,15 +238,14 @@ const config = {
 
 ### Custom Buttons
 
-You can define custom buttons before the editor is created, for example at the top of the component that uses them:
+You can define custom buttons before the editor is created. Register them once: in a plain `<script>` block, which runs once per module rather than every time the component is created, or in your entry file:
 
 ```vue
 <template>
   <froala :tag="'textarea'" :config="config" v-model:value="model"></froala>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script>
 import FroalaEditor from 'froala-editor';
 
 FroalaEditor.DefineIcon('alert', {NAME: 'info', SVG_KEY: 'help'});
@@ -281,6 +281,10 @@ FroalaEditor.RegisterCommand('insert', {
     this.html.insert('My New HTML');
   }
 });
+</script>
+
+<script setup>
+import { ref } from 'vue';
 
 const config = {
   toolbarButtons: [['undo', 'redo', 'bold'], ['alert', 'clear', 'insert']]
