@@ -64,11 +64,7 @@ import 'froala-editor/css/froala_style.min.css';
 
 import App from './App.vue';
 import { createApp } from 'vue';
-
-// `es/index.js` is published as CommonJS, so the default export may arrive
-// wrapped. This form works whichever way the bundler resolves the package.
-import * as VueFroalaModule from 'vue-froala-wysiwyg';
-const VueFroala = VueFroalaModule.default?.default ?? VueFroalaModule.default;
+import VueFroala from 'vue-froala-wysiwyg';
 
 const app = createApp(App);
 
@@ -100,17 +96,16 @@ const model = ref('Edit Your Content Here!');
 </script>
 ```
 
-#### Vite 8 (the `npm create vue` default)
+#### Upgrading from 5.5.0 or earlier
 
-In a Vite 8 project whose `package.json` has `"type": "module"`, a plain default import (`import VueFroala from 'vue-froala-wysiwyg'`) doesn't return the plugin — it returns the module namespace with the plugin one level deeper. In dev, `app.use()` warns `A plugin must either be a function or an object with an "install" function.`, `<froala>` isn't registered and the page renders blank. In a production build there is no warning at all, only the blank page. Until this is fixed in the package, import it like the entry file above does.
+Up to 5.5.0, a plain default import rendered a blank page in a Vite 8 project with `"type": "module"` (the `npm create vue` default), and the package had no type declarations. If you added either workaround, you can remove it now:
+
+- Replace `import * as VueFroalaModule from 'vue-froala-wysiwyg'` and the `VueFroalaModule.default?.default ?? VueFroalaModule.default` line with `import VueFroala from 'vue-froala-wysiwyg';`.
+- Delete `declare module 'vue-froala-wysiwyg';` from your declaration file. While it's there, it hides the package's own types and every prop is `any`.
 
 #### TypeScript
 
-The package doesn't ship type declarations yet, so a TypeScript build (`vue-tsc`) stops with `TS7016: Could not find a declaration file for module 'vue-froala-wysiwyg'`. Add a declaration file, for example `src/vue-froala-wysiwyg.d.ts`:
-
-```typescript
-declare module 'vue-froala-wysiwyg';
-```
+The package ships its own type declarations. Importing the package also types the global components, so `vue-tsc` checks the props you pass to `<froala>` and `<froalaView>`. `config` is typed as the editor's options plus the wrapper's own `immediateVueModelUpdate` and `vueIgnoreAttrs`.
 
 The examples in this README use plain JavaScript in `<script setup>`. In a TypeScript project, use `<script setup lang="ts">` instead (and `<script lang="ts">` for the plain block in [Custom Buttons](#custom-buttons), since both blocks must use the same language), otherwise `vue-tsc` can't read the component (`TS7016: Could not find a declaration file for module './App.vue'`). With TypeScript, also type `this` in event callbacks:
 
@@ -126,7 +121,17 @@ const config = {
 };
 ```
 
-Type the controls in [Manual Instantiation](#manual-instantiation) too, for example `const initControls = shallowRef<any>(null);` and `function initialize(controls: any)`.
+Type the controls in [Manual Instantiation](#manual-instantiation) with the package's `FroalaManualControls`:
+
+```typescript
+import type { FroalaManualControls } from 'vue-froala-wysiwyg';
+
+const initControls = shallowRef<FroalaManualControls | null>(null);
+
+function initialize(controls: FroalaManualControls) {
+  initControls.value = controls;
+}
+```
 
 ## Usage
 
@@ -356,15 +361,12 @@ import 'froala-editor/js/plugins.pkgd.min.js';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/css/froala_style.min.css';
 
-import * as VueFroalaModule from 'vue-froala-wysiwyg';
-const VueFroala = VueFroalaModule.default?.default ?? VueFroalaModule.default;
+import VueFroala from 'vue-froala-wysiwyg';
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(VueFroala);
 });
 ```
-
-The import uses the same form as the [entry file](#integration), which works whichever way the package resolves (see the [Vite 8 note](#vite-8-the-npm-create-vue-default)).
 
 Then wrap the components in `<ClientOnly>`. Both `froala` and `froalaView` are only registered in the browser, so leaving either outside `<ClientOnly>` makes SSR fail to resolve it (`[Vue warn]: Failed to resolve component: froalaView`) and then produces a hydration mismatch:
 
@@ -388,7 +390,7 @@ const model = ref('<p>Hello from Nuxt</p>');
 </script>
 ```
 
-Register custom buttons, icons and languages in the same client-only plugin, so they only run in the browser. Nuxt type-checks with the same `TS7016` error, so add the declaration from [TypeScript](#typescript) as `vue-froala-wysiwyg.d.ts` at the project root, where both Nuxt 3 and Nuxt 4 pick it up.
+Register custom buttons, icons and languages in the same client-only plugin, so they only run in the browser. The package's type declarations work in Nuxt too, so no declaration file of your own is needed.
 
 ## License
 
