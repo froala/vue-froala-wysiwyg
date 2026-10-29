@@ -27,10 +27,12 @@
   "unpkg": "dist/vue-froala.min.js",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
+  "types": "index.d.ts",
   "files": [
     "src",
     "dist",
-    "es"
+    "es",
+    "index.d.ts"
   ],
   "scripts": {
     "dev": "node build/dev-server.js",
