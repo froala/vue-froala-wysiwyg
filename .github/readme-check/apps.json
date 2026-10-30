@@ -1,0 +1,17 @@
+{
+  "readme": "README.md",
+  "apps": [
+    {
+      "name": "vite",
+      "description": "the Integration example (main.js and App.vue) in a Vite app",
+      "build": ["npx", "vite", "build"],
+      "start": ["npx", "vite", "preview", "--port", "$PORT", "--strictPort"]
+    },
+    {
+      "name": "nuxt",
+      "description": "the Nuxt example (client-only plugin and page) in a Nuxt 4 app",
+      "build": ["npx", "nuxt", "build"],
+      "start": ["node", ".output/server/index.mjs"]
+    }
+  ]
+}

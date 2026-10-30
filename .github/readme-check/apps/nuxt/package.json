@@ -1,0 +1,9 @@
+{
+  "name": "readme-check-nuxt",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "nuxt": "^4.0.0",
+    "vue": "^3.5.0"
+  }
+}

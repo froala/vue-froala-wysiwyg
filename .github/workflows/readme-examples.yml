@@ -1,0 +1,54 @@
+name: README examples
+
+# Checks that the README's code examples work when copied as written:
+# every code block must parse, and the full examples (Vite app, Nuxt app) are
+# built against this branch's packed package and opened in headless Chrome.
+
+on:
+  pull_request:
+    branches:
+      - master
+      - 'RC-v*'
+    paths:
+      - 'README.md'
+      - 'src/**'
+      - 'package.json'
+      - '.babelrc'
+      - '.github/readme-check/**'
+      - '.github/workflows/readme-examples.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  readme-examples:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # yarn runs the build (prepublish) during install. The webpack 4 build
+      # needs the legacy OpenSSL provider on Node 17+.
+      - name: Build the package
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+        run: npx --yes yarn@1 install --pure-lockfile
+
+      - name: Pack the package
+        run: npm pack --pack-destination "$RUNNER_TEMP"
+
+      - name: Install the checker
+        working-directory: .github/readme-check
+        run: |
+          npm install --no-audit --no-fund
+          npx puppeteer browsers install chrome
+
+      - name: Check the README examples
+        working-directory: .github/readme-check
+        run: node check.mjs --package "$(ls "$RUNNER_TEMP"/vue-froala-wysiwyg-*.tgz)"
