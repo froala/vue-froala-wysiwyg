@@ -397,9 +397,9 @@ The `vue-froala-wysiwyg` wrapper is under the MIT license. Froala Editor itself 
 
 ### License key
 
-Every editor feature works without a license key. Without a valid key, the editor shows a short notice at the bottom, under "Powered by Froala", and writes the same text to the browser console once. That happens on `localhost` too.
+Every editor feature works without a license key. Without a valid key, the editor shows a short notice at the bottom, under "Powered by Froala", and writes the same text to the browser console once. That happens on `localhost` too. `.dev`, `.edu` and `.test` domains, and playgrounds such as CodePen, still give a clean editor without a key.
 
-To evaluate the editor, use the public trial key, `TRIAL-LICENSE-KEY-FOR-FROALA-NOT-FOR-PRODUCTION-USE` (see the [activation page](https://froala.com/wysiwyg-editor/docs/activation/)). It lasts 30 days and isn't for production use, and the notice stays while it's in use.
+To evaluate the editor, use the public trial key, `TRIAL-LICENSE-KEY-FOR-FROALA-NOT-FOR-PRODUCTION-USE` (see the [activation page](https://froala.com/wysiwyg-editor/docs/activation/)). It isn't for production use, and the trial notice shows for as long as it's in use.
 
 For production, [buy a license](https://cart.froala.com) and pass its key in the editor options:
 
