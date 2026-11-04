@@ -15,6 +15,7 @@
 6. [Displaying HTML](#displaying-html)
 7. [Nuxt and server-side rendering](#nuxt-and-server-side-rendering)
 8. [License](#license)
+   - [License key](#license-key)
 9. [Development environment setup](#development-environment-setup)
 
 ## Installation
@@ -392,10 +393,27 @@ Register custom buttons, icons and languages in the same client-only plugin, so 
 
 ## License
 
-The `vue-froala-wysiwyg` project is under MIT license. However, in order to use Froala WYSIWYG HTML Editor plugin you should purchase a license for it.
+The `vue-froala-wysiwyg` wrapper is under the MIT license. Froala Editor itself is commercial software: see the [pricing page](https://froala.com/wysiwyg-editor/pricing/) for licenses and the [License Agreement](https://froala.com/wysiwyg-editor/terms/) for the terms.
 
-Froala Editor has [3 different licenses](https://froala.com/wysiwyg-editor/pricing/) for commercial use.
-For details please see [License Agreement](https://froala.com/wysiwyg-editor/terms/).
+### License key
+
+Every editor feature works without a license key. Without a valid key, the editor shows a short notice at the bottom, under "Powered by Froala", and writes the same text to the browser console once. That happens on `localhost` too.
+
+To evaluate the editor, use the public trial key, `TRIAL-LICENSE-KEY-FOR-FROALA-NOT-FOR-PRODUCTION-USE` (see the [activation page](https://froala.com/wysiwyg-editor/docs/activation/)). It lasts 30 days and isn't for production use, and the notice stays while it's in use.
+
+For production, [buy a license](https://cart.froala.com) and pass its key in the editor options:
+
+```javascript
+const config = {
+  key: 'YOUR_LICENSE_KEY'
+};
+```
+
+```html
+<froala :tag="'textarea'" :config="config" v-model:value="model"></froala>
+```
+
+With a valid key the notice goes away, on `localhost` as well as on your own domain.
 
 ## Development environment setup
 
