@@ -170,9 +170,23 @@ async function checkPage(url) {
     page.on('pageerror', e => problems.push(`page error: ${e.message}`));
     page.on('console', m => {
       const text = m.text();
-      if (m.type() === 'error' && !/Failed to load resource/.test(text)) problems.push(`console error: ${text.split('\n')[0]}`);
+      // A failed load is reported below, from the response, because Chrome's
+      // console message for it doesn't say which file failed.
+      if (/Failed to load resource/.test(text)) return;
+      if (m.type() === 'error') problems.push(`console error: ${text.split('\n')[0]}`);
       else if (/\[Vue warn\]|Hydration|hydration|Warning: /.test(text)) problems.push(`console ${m.type()}: ${text.split('\n')[0]}`);
     });
+    // Every failed load counts except /favicon.ico, which the app shells don't
+    // ship. Chrome reports a 4xx stylesheet as a failed request too, so each URL
+    // is reported once.
+    const failed = new Set();
+    const loadFailed = (u, why) => {
+      if (new URL(u).pathname === '/favicon.ico' || failed.has(u)) return;
+      failed.add(u);
+      problems.push(`failed to load ${u} (${why})`);
+    };
+    page.on('response', r => { if (r.status() >= 400) loadFailed(r.url(), r.status()); });
+    page.on('requestfailed', r => loadFailed(r.url(), r.failure()?.errorText));
     await page.goto(url, { waitUntil: 'load', timeout: 60000 });
     try {
       await page.waitForSelector('.fr-box .fr-element', { timeout: 30000 });
