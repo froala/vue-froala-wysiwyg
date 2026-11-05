@@ -74,6 +74,10 @@ app.mount('#app');
 
 This registers two global components, `Froala` (the editor) and `FroalaView` (for [displaying HTML](#displaying-html)). Use them in templates as `<froala>` and `<froalaView>`, or `<froala-view>` in in-DOM templates.
 
+To register them yourself, or only in one component, import them by name: `import { Froala, FroalaView } from 'vue-froala-wysiwyg';`.
+
+Bundlers (Vite, webpack, Rollup) read the package's `module` build, which has the plugin and both components. Tools that read `main` instead, such as Jest or a plain Node `require()`, and the `<script>` build on unpkg get `dist/vue-froala.js`, which has `Froala` and `FroalaView` but no default plugin, so there is nothing to pass to `app.use()`. Register the components with `app.component('Froala', Froala)` and `app.component('FroalaView', FroalaView)` there.
+
 #### 2. Use the editor in a component, for example `src/App.vue`.
 
 ```vue
