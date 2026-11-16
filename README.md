@@ -111,6 +111,8 @@ Up to 5.5.0, a plain default import rendered a blank page in a Vite 8 project wi
 
 The package ships its own type declarations. Importing the package also types the global components, so `vue-tsc` checks the props you pass to `<froala>` and `<froalaView>`. `config` is typed as the editor's options plus the wrapper's own `immediateVueModelUpdate` and `vueIgnoreAttrs`.
 
+The declarations assume `"moduleResolution": "bundler"`, which is what `npm create vue` and Nuxt set up. With `node16` or `nodenext`, TypeScript reads them as CommonJS and `app.use(VueFroala)` fails to type-check (TS2345).
+
 The examples in this README use plain JavaScript in `<script setup>`. In a TypeScript project, use `<script setup lang="ts">` instead (and `<script lang="ts">` for the plain block in [Custom Buttons](#custom-buttons), since both blocks must use the same language), otherwise `vue-tsc` can't read the component (`TS7016: Could not find a declaration file for module './App.vue'`). With TypeScript, also type `this` in event callbacks:
 
 ```typescript
