@@ -1,0 +1,14 @@
+{
+  "name": "readme-check",
+  "private": true,
+  "type": "module",
+  "description": "Checks that the README's code examples work when copied as written.",
+  "scripts": {
+    "check": "node check.mjs"
+  },
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.5.0",
+    "esbuild": "^0.25.0",
+    "puppeteer": "^24.0.0"
+  }
+}

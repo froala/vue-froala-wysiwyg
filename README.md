@@ -39,6 +39,7 @@ npm install vue-froala-wysiwyg@latest
 
 #### 1. Register the plugin in your entry file (`src/main.js`, or `src/main.ts` in a TypeScript project).
 
+<!-- readme-test: vite src/main.js -->
 ```javascript
 // Import all Froala Editor plugins.
 import 'froala-editor/js/plugins.pkgd.min.js';
@@ -80,6 +81,7 @@ This registers two global components, `Froala` (the editor) and `FroalaView` (fo
 
 #### 2. Use the editor in a component, for example `src/App.vue`.
 
+<!-- readme-test: vite src/App.vue -->
 ```vue
 <template>
   <froala id="edit" :tag="'textarea'" :config="config" v-model:value="model"></froala>
@@ -348,6 +350,7 @@ The editor needs a browser, so register it in the browser only and render it on 
 
 In Nuxt, register the plugin in a client-only plugin — `app/plugins/froala.client.ts` on Nuxt 4, or `plugins/froala.client.ts` on Nuxt 3:
 
+<!-- readme-test: nuxt app/plugins/froala.client.ts -->
 ```typescript
 // Import all Froala Editor plugins.
 import 'froala-editor/js/plugins.pkgd.min.js';
@@ -368,6 +371,7 @@ The import uses the same form as the [entry file](#integration), which works whi
 
 Then wrap the components in `<ClientOnly>`. Both `froala` and `froalaView` are only registered in the browser, so leaving either outside `<ClientOnly>` makes SSR fail to resolve it (`[Vue warn]: Failed to resolve component: froalaView`) and then produces a hydration mismatch:
 
+<!-- readme-test: nuxt app/pages/index.vue -->
 ```vue
 <template>
   <ClientOnly>
