@@ -393,19 +393,15 @@ Register custom buttons, icons and languages in the same client-only plugin, so 
 
 ## License
 
-The `vue-froala-wysiwyg` wrapper is under the MIT license. Froala Editor itself is commercial software: see the [pricing page](https://froala.com/wysiwyg-editor/pricing/) for licenses and the [License Agreement](https://froala.com/wysiwyg-editor/terms/) for the terms.
+The `vue-froala-wysiwyg` project is under the MIT license. Froala Editor itself is a commercial component with a 30-day free trial: see the [pricing page](https://cart.froala.com) and the [license terms](https://www.ideracorp.com/legal/Froala#tabs-2).
 
 ### License key
 
-Every editor feature works without a license key. Without a valid key, the editor shows a short notice at the bottom, under "Powered by Froala", and writes the same text to the browser console once. That happens on `localhost` too. `.dev`, `.edu` and `.test` domains, and playgrounds such as CodePen, still give a clean editor without a key.
-
-To evaluate the editor, use the public trial key, `TRIAL-LICENSE-KEY-FOR-FROALA-NOT-FOR-PRODUCTION-USE` (see the [activation page](https://froala.com/wysiwyg-editor/docs/activation/)). It isn't for production use, and the trial notice shows for as long as it's in use.
-
-For production, [buy a license](https://cart.froala.com) and pass its key in the editor options:
+Froala requires a key, passed in the `key` option. Start with the trial key if you're just trying the product or comparing it with other solutions.
 
 ```javascript
 const config = {
-  key: 'YOUR_LICENSE_KEY'
+  key: 'TRIAL-LICENSE-KEY-FOR-FROALA-NOT-FOR-PRODUCTION-USE' // 30-day trial key or your commercial key
 };
 ```
 
@@ -413,7 +409,11 @@ const config = {
 <froala :tag="'textarea'" :config="config" v-model:value="model"></froala>
 ```
 
-With a valid key the notice goes away, on `localhost` as well as on your own domain.
+Before you go live, replace the trial key with your commercial key.
+
+Without a valid key the editor shows a notice in the bar at the bottom, under "Powered by Froala", and writes the same text to the browser console once. The text says whether the key is missing, a trial, invalid or expired.
+
+On a local host (`localhost`, `127.x.x.x`, `0.0.0.0`) you get the same notice as on a public site if there is no key, the key is a trial key, or the key has expired. A key that is still valid gives a clean editor there, so licensed developers are not affected.
 
 ## Development environment setup
 
